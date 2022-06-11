@@ -66,10 +66,8 @@
 }
 
 .grid {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
+  display: grid;
+  gap: 40px;
   max-width: 800px;
 }
 
@@ -113,4 +111,10 @@
     width: 100%;
     flex-direction: column;
   }
+}
+
+.repocard {
+  border: 1px solid black;
+  border-radius: 6px;
+  padding: 2rem;
 }
