@@ -1,27 +1,27 @@
 import { gql } from "@apollo/client";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { getApolloClient } from "../apollo-client";
-import styles from "../styles/Home.module.css";
-import { Repo } from "../models";
-
 import { AiFillStar } from "react-icons/ai";
 import { VscRepoForked } from "react-icons/vsc";
+import { getApolloClient } from "../apollo-client";
+import { CardLink } from "../components/CardLink";
+import { Repo } from "../models";
+import styles from "../styles/Home.module.css";
 
 const Home: NextPage = ({ repo }: Repo) => {
-  console.log(repo);
-
   const repoCard = Object.keys(repo).map((key: string, index) => {
     return (
       <div className={styles.repocard} key={key}>
-        <h2>{repo[key].nameWithOwner}</h2>
-        <h3>{repo[key].description}</h3>
-        <p>
-          <AiFillStar />: {repo[key].stargazerCount}
-        </p>
-        <p>
-          <VscRepoForked />: {repo[key].forkCount}
-        </p>
+        <CardLink href={`/${repo[key].id}`}>
+          <h2>{repo[key].nameWithOwner}</h2>
+          <h3>{repo[key].description}</h3>
+          <p>
+            <AiFillStar />: {repo[key].stargazerCount}
+          </p>
+          <p>
+            <VscRepoForked />: {repo[key].forkCount}
+          </p>
+        </CardLink>
       </div>
     );
   });
@@ -34,6 +34,11 @@ const Home: NextPage = ({ repo }: Repo) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
+        <h1>GitHub projects by development effort</h1>
+        <p>
+          Disclaimer: The merit of a project cannot be judged solely based on
+          the metrics shown here. Use your judgement.
+        </p>
         <div className={styles.grid}>{repoCard}</div>
       </main>
     </div>
@@ -97,11 +102,6 @@ export async function getServerSideProps() {
       }`,
   });
 
-  // console.log(data["repo1"]["object"]["history"]);
-  // console.log(Object.keys(data));
-
-  // const organization = { data };
-  // const repo = data.organization.repository;
   const repo = data;
 
   return {
@@ -110,99 +110,3 @@ export async function getServerSideProps() {
     },
   };
 }
-
-// fragment repoProperties on Repository {
-//   nameWithOwner
-//   description
-// }
-
-// {
-//   repo1: repository(owner: "octokit", name: "request.js") {
-//     ...repoProperties
-//   }
-//   repo2: repository(owner: "octokit", name: "graphql.js") {
-//     ...repoProperties
-//   }
-// }
-
-// const repositories = [
-//   { owner: "octokit", repo: "request.js" },
-//   { owner: "octokit", repo: "graphql.js" },
-// ];
-
-// const query = `
-// fragment repoProperties on Repository {
-//   nameWithOwner
-//   description
-// }
-
-// {
-//   ${repositories
-//     .map(
-//       ({ owner, repo }, index) => `repo${
-//         index + 1
-//       }: repository(owner: "${owner}", name: "${repo}") {
-//     ...repoProperties
-//   }`
-//     )
-//     .join("\n")}
-// }`;
-
-// const result = await graphql(query, {
-//   headers: {
-//     authorization: `token token123`,
-//   },
-// });
-
-// console.log(result);
-
-//commits since
-
-// {
-//   viewer {
-//     login
-//   }
-//   organization(login: "ethereum") {
-//     id
-//     repository(name: "go-ethereum") {
-//       defaultBranchRef {
-//         target {
-//           ... on Commit {
-//             id
-//             history(since: "2021-04-11T00:00:00Z") {
-//               totalCount
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// }
-
-// with hisroty
-//         id
-//         description
-//         forkCount
-//         name
-//         nameWithOwner
-//         stargazerCount
-//         issues {
-//           totalCount
-//         }
-//         mentionableUsers {
-//           totalCount
-//         }
-//         assignableUsers {
-//           totalCount
-//         }
-//         pullRequests {
-//           totalCount
-//         }
-//         object(expression: "master") {
-//           ... on Commit {
-//             id
-//             history {
-//               totalCount
-//             }
-//           }
-//         }

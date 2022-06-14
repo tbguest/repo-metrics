@@ -1,0 +1,27 @@
+.card_link {
+  padding: 0.25rem 0;
+  z-index: 1;
+}
+
+.card_link:hover,
+.card_link:focus,
+.card_link:active {
+  color: var(--blue);
+  border-color: var(--blue);
+}
+
+.card_link::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: var(--border-radius);
+}
+
+.card_link:hover::after,
+.card_link:focus::after,
+.card_link:active::after {
+  /* background-color: var(--background-color-hover); */
+}
