@@ -87,3 +87,19 @@
   grid-auto-flow: row;
   margin-top: 2rem;
 }
+
+.plot {
+  position: absolute;
+  width: 90%;
+  object-fit: contain;
+  display: flex;
+}
+
+.plot_object {
+  position: absolute;
+}
+
+.repocard button {
+  position: absolute;
+  left: -20px;
+}
