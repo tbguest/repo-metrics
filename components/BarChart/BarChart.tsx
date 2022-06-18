@@ -9,10 +9,14 @@ function BarChart({ data, width, height }) {
       //   const width = width;
       const margin = { top: 20, right: 30, bottom: 30, left: 40 };
 
+      console.log(data.map((d, i) => i));
+
       const x = d3
         .scaleBand()
-        .domain(data.map((d) => d.week))
-        .rangeRound([margin.left, width - margin.right])
+        // .domain(data.map((d) => d.week))
+        .domain(data.map((d, i) => i + 1))
+        // .rangeRound([margin.left, width - margin.right])
+        .range([margin.left, width - margin.right])
         .padding(0.1);
 
       const y1 = d3
@@ -36,7 +40,8 @@ function BarChart({ data, width, height }) {
         g
           .attr("transform", `translate(${margin.left},0)`)
           .style("color", "black")
-          .call(d3.axisLeft(y1).ticks(null, "s"))
+          // .call(d3.axisLeft(y1).ticks(null, "s"))
+          .call(d3.axisLeft(y1).ticks(4))
           .call((g) => g.select(".domain").remove())
           .call((g) =>
             g
@@ -53,12 +58,13 @@ function BarChart({ data, width, height }) {
 
       svg
         .select(".plot-area")
-        .attr("fill", "steelblue")
+        .attr("fill", "#39d353")
         .selectAll(".bar")
         .data(data)
         .join("rect")
         .attr("class", "bar")
-        .attr("x", (d) => x(d.week))
+        // .attr("x", (d) => x(d.week))
+        .attr("x", (d, i) => x(i + 1))
         .attr("width", x.bandwidth())
         .attr("y", (d) => y1(d.total))
         .attr("height", (d) => y1(0) - y1(d.total));
@@ -70,7 +76,7 @@ function BarChart({ data, width, height }) {
     <svg
       ref={ref}
       style={{
-        height: 500,
+        height: height,
         width: "100%",
         marginRight: "0px",
         marginLeft: "0px",

@@ -36,7 +36,6 @@ const Home: NextPage = ({ repo }: Repo) => {
         <CardLink href={`/${repo[key].nameWithOwner}`}>
           <h2>{repo[key].nameWithOwner}</h2>
           <h3>{repo[key].description}</h3>
-          <h3>{repo[key].name}</h3>
           <p>
             <AiFillStar />: {repo[key].stargazerCount}
           </p>
@@ -45,10 +44,6 @@ const Home: NextPage = ({ repo }: Repo) => {
           </p>
           <button onClick={() => handlePlotClick(index)}>show plot</button>
           {open[index] && <BarPlot name={repo[key].nameWithOwner} />}
-
-          {console.log(index)}
-          {console.log(open)}
-          {console.log(open[index])}
         </CardLink>
       </div>
     );
@@ -68,7 +63,6 @@ const Home: NextPage = ({ repo }: Repo) => {
             Disclaimer: The merit of a project cannot be judged solely on the
             metrics shown here. Use your judgement.
           </p>
-          {console.log("count")}
           <div className={styles.grid}>{repoCard}</div>
         </>
       </main>
