@@ -60,7 +60,7 @@ const BarPlot = ({ name }: string) => {
         height={100}
         className={styles.plot_object}
       /> */}
-      <BarChart data={data.data.data} width={300} height={125} />
+      <BarChart data={data.data.data} width={410} height={150} />
     </div>
   );
 };

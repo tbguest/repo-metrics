@@ -2,11 +2,13 @@
   border: 2px solid black;
   border-radius: var(--border-radius);
   padding: 2rem;
-  max-width: 400px;
   position: relative;
   height: 100%;
+  /* width: 100%; */
+  margin: 0;
 }
 
 .card:hover {
   background-color: var(--background-color-hover);
+  cursor: pointer;
 }

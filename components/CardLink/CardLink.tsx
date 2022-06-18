@@ -4,17 +4,17 @@ import styles from "./CardLink.module.css";
 import { Card } from "../Card";
 
 type CardLinkProps = {
-  href: string;
+  onClick: () => void;
   children: React.ReactNode;
   style?: React.CSSProperties;
 };
 
-const CardLink = ({ href, children, style }: CardLinkProps) => {
+const CardLink = ({ onClick, children, style }: CardLinkProps) => {
   return (
-    <Card style={style}>
-      <Link href={href}>
+    <Card onClick={onClick} style={style}>
+      <div>
         <a className={styles.card_link} />
-      </Link>
+      </div>
       {children}
     </Card>
   );

@@ -75,9 +75,12 @@ function BarChart({ data, width, height }) {
   return (
     <svg
       ref={ref}
+      //   viewBox={`0 0 ${height} ${width}`}
       style={{
         height: height,
-        width: "100%",
+        // height: "100%",
+        // width: "100%",
+        // width: width,
         marginRight: "0px",
         marginLeft: "0px",
       }}
