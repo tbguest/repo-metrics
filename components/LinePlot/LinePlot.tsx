@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import * as d3 from "d3";
 
-import "./LinePlot.module.css";
+import styles from "./LinePlot.module.css";
 
 function LinePlot(props) {
   const { data, width, height } = props;
+
+  const plotId = "";
+  const id = `container${plotId}`;
 
   useEffect(() => {
     drawChart();
@@ -27,6 +30,7 @@ function LinePlot(props) {
       .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
+      // .attr("viewBox", `0 0 ${width} ${height}`)
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -71,7 +75,8 @@ function LinePlot(props) {
       .attr("d", area)
       .attr("fill", "#39d353");
   }
-  return <div id="container" />;
+  // return <div id="container" />;
+  return <div id="container" className={styles.container} />;
 }
 
 export default LinePlot;

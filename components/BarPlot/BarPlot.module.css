@@ -1,0 +1,11 @@
+.plot {
+  position: relative;
+  max-width: 100%;
+  /* width: 90%;
+  object-fit: contain;
+  display: flex; */
+}
+
+.plot_object {
+  /* position: absolute; */
+}

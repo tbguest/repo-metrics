@@ -4,14 +4,12 @@ import Head from "next/head";
 import { useState } from "react";
 import { AiFillStar } from "react-icons/ai";
 import { VscRepoForked } from "react-icons/vsc";
-import useSWR from "swr";
 import { getApolloClient } from "../apollo-client";
 import { CardLink } from "../components/CardLink";
-import LinePlot from "../components/LinePlot/LinePlot";
 import { Repo } from "../models";
 import styles from "../styles/Home.module.css";
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+import { BarPlot } from "../components/BarPlot";
+import { BarChart } from "../components/BarChart";
 
 const repositories = [
   { owner: "ethereum", repo: "go-ethereum" },
@@ -21,38 +19,14 @@ const repositories = [
   { owner: "solana-labs", repo: "solana" },
 ];
 
-const BarPlot = ({ name }: string) => {
-  const [owner, repo] = name.split("/");
-
-  const { data, error } = useSWR(
-    `/api/github?owner=${owner}&repo=${repo}`,
-    fetcher
-  );
-
-  if (error) return <div>Failed to load</div>;
-  if (!data) return <div>Loading...</div>;
-
-  return (
-    <div className={styles.plot}>
-      <LinePlot
-        data={data.data.data}
-        width={300}
-        height={100}
-        className={styles.plot_object}
-      />
-    </div>
-  );
-};
-
 const Home: NextPage = ({ repo }: Repo) => {
   const openList = repositories.map(() => false);
   const [open, setOpen] = useState(openList);
 
+  // toggle the plot state boolean by index
   const handlePlotClick = (i: number) => {
     const list = [...open];
     list[i] = !list[i];
-
-    console.log("list", list);
     setOpen(list);
   };
 
@@ -71,6 +45,10 @@ const Home: NextPage = ({ repo }: Repo) => {
           </p>
           <button onClick={() => handlePlotClick(index)}>show plot</button>
           {open[index] && <BarPlot name={repo[key].nameWithOwner} />}
+
+          {console.log(index)}
+          {console.log(open)}
+          {console.log(open[index])}
         </CardLink>
       </div>
     );
@@ -84,12 +62,15 @@ const Home: NextPage = ({ repo }: Repo) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <h1>GitHub projects by development effort</h1>
-        <p>
-          Disclaimer: The merit of a project cannot be judged solely on the
-          metrics shown here. Use your judgement.
-        </p>
-        <div className={styles.grid}>{repoCard}</div>
+        <>
+          <h1>GitHub projects by development effort</h1>
+          <p>
+            Disclaimer: The merit of a project cannot be judged solely on the
+            metrics shown here. Use your judgement.
+          </p>
+          {console.log("count")}
+          <div className={styles.grid}>{repoCard}</div>
+        </>
       </main>
     </div>
   );
