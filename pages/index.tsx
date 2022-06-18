@@ -10,6 +10,9 @@ import { Repo } from "../models";
 import styles from "../styles/Home.module.css";
 import { BarPlot } from "../components/BarPlot";
 import { BarChart } from "../components/BarChart";
+import classNames from "classnames";
+import { BiGitPullRequest } from "react-icons/bi";
+import { VscIssues } from "react-icons/vsc";
 
 const repositories = [
   { owner: "ethereum", repo: "go-ethereum" },
@@ -32,18 +35,35 @@ const Home: NextPage = ({ repo }: Repo) => {
 
   const repoCard = Object.keys(repo).map((key: string, index) => {
     return (
-      <div className={styles.repocard} key={key}>
-        <CardLink href={`/${repo[key].nameWithOwner}`}>
+      <div
+        className={classNames(styles.repocard, {
+          [styles.repocard_clicked]: open[index],
+        })}
+        key={key}
+      >
+        <CardLink onClick={() => handlePlotClick(index)}>
           <h2>{repo[key].nameWithOwner}</h2>
           <h3>{repo[key].description}</h3>
-          <p>
-            <AiFillStar />: {repo[key].stargazerCount}
-          </p>
-          <p>
-            <VscRepoForked />: {repo[key].forkCount}
-          </p>
-          <button onClick={() => handlePlotClick(index)}>show plot</button>
-          {open[index] && <BarPlot name={repo[key].nameWithOwner} />}
+          <div className={styles.content}>
+            <div className={styles.list}>
+              <p>
+                <AiFillStar /> stars:{" "}
+                <strong>{repo[key].stargazerCount}</strong>
+              </p>
+              <p>
+                <VscRepoForked /> forks: <strong>{repo[key].forkCount}</strong>
+              </p>
+              <p>
+                <VscIssues /> issues (open):{" "}
+                <strong>{repo[key].openIssues.totalCount}</strong>
+              </p>
+              <p>
+                <BiGitPullRequest /> pull requests (open):{" "}
+                <strong>{repo[key].pullRequests.totalCount}</strong>
+              </p>
+            </div>
+            {open[index] && <BarPlot name={repo[key].nameWithOwner} />}
+          </div>
         </CardLink>
       </div>
     );
@@ -93,7 +113,10 @@ export async function getServerSideProps() {
         assignableUsers {
           totalCount
         }
-        pullRequests {
+        openIssues: issues(states: OPEN) {
+          totalCount
+        }
+        pullRequests(states: OPEN) {
           totalCount
         }
         object(expression: "master") {
