@@ -1,5 +1,6 @@
 .container {
   padding: 0 2rem;
+  width: 100vw;
   background-color: var(--background-color);
 }
 
@@ -11,6 +12,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-width: 100%;
 }
 
 .main h1 {
@@ -71,19 +73,66 @@
     Bitstream Vera Sans Mono, Courier New, monospace;
 }
 
-@media (max-width: 600px) {
-  .grid {
-    width: 100%;
-    flex-direction: column;
-  }
-}
-
 .grid {
   display: grid;
-  gap: 40px;
+  max-width: 800px;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(auto-fill, 1fr);
-  max-width: 800px;
+  gap: 40px;
   grid-auto-flow: row;
-  margin-top: 2rem;
+  margin: 2rem 0 0 0;
+  /* margin: 0; */
+  padding: 0;
+  width: 100%;
+}
+
+.repocard {
+  position: relative;
+}
+
+.repocard:hover {
+  animation: box-size 2s;
+}
+
+.repocard_clicked {
+  position: relative;
+  grid-column: span 2;
+  /* order: -1; */
+  animation: box-size 2s;
+}
+
+.repocard button {
+  position: absolute;
+  left: -20px;
+}
+
+.content {
+  display: flex;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  min-width: 30%;
+}
+
+.list p {
+  margin: 0.5rem;
+  overflow-wrap: break-word;
+}
+
+@media only screen and (max-device-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(auto-fill, 1fr);
+  }
+
+  .repocard_clicked {
+    grid-column: span 1;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+  }
 }

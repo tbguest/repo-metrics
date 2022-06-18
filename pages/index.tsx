@@ -1,26 +1,69 @@
 import { gql } from "@apollo/client";
 import type { NextPage } from "next";
 import Head from "next/head";
+import { useState } from "react";
 import { AiFillStar } from "react-icons/ai";
 import { VscRepoForked } from "react-icons/vsc";
 import { getApolloClient } from "../apollo-client";
 import { CardLink } from "../components/CardLink";
 import { Repo } from "../models";
 import styles from "../styles/Home.module.css";
+import { BarPlot } from "../components/BarPlot";
+import { BarChart } from "../components/BarChart";
+import classNames from "classnames";
+import { BiGitPullRequest } from "react-icons/bi";
+import { VscIssues } from "react-icons/vsc";
+
+const repositories = [
+  { owner: "ethereum", repo: "go-ethereum" },
+  { owner: "paritytech", repo: "polkadot" },
+  { owner: "ava-labs", repo: "avalanchego" },
+  { owner: "cosmos", repo: "ibc-go" },
+  { owner: "solana-labs", repo: "solana" },
+];
 
 const Home: NextPage = ({ repo }: Repo) => {
+  const openList = repositories.map(() => false);
+  const [open, setOpen] = useState(openList);
+
+  // toggle the plot state boolean by index
+  const handlePlotClick = (i: number) => {
+    const list = [...open];
+    list[i] = !list[i];
+    setOpen(list);
+  };
+
   const repoCard = Object.keys(repo).map((key: string, index) => {
     return (
-      <div className={styles.repocard} key={key}>
-        <CardLink href={`/${repo[key].id}`}>
+      <div
+        className={classNames(styles.repocard, {
+          [styles.repocard_clicked]: open[index],
+        })}
+        key={key}
+      >
+        <CardLink onClick={() => handlePlotClick(index)}>
           <h2>{repo[key].nameWithOwner}</h2>
           <h3>{repo[key].description}</h3>
-          <p>
-            <AiFillStar />: {repo[key].stargazerCount}
-          </p>
-          <p>
-            <VscRepoForked />: {repo[key].forkCount}
-          </p>
+          <div className={styles.content}>
+            <div className={styles.list}>
+              <p>
+                <AiFillStar /> stars:{" "}
+                <strong>{repo[key].stargazerCount}</strong>
+              </p>
+              <p>
+                <VscRepoForked /> forks: <strong>{repo[key].forkCount}</strong>
+              </p>
+              <p>
+                <VscIssues /> issues (open):{" "}
+                <strong>{repo[key].openIssues.totalCount}</strong>
+              </p>
+              <p>
+                <BiGitPullRequest /> pull requests (open):{" "}
+                <strong>{repo[key].pullRequests.totalCount}</strong>
+              </p>
+            </div>
+            {open[index] && <BarPlot name={repo[key].nameWithOwner} />}
+          </div>
         </CardLink>
       </div>
     );
@@ -34,12 +77,14 @@ const Home: NextPage = ({ repo }: Repo) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <h1>GitHub projects by development effort</h1>
-        <p>
-          Disclaimer: The merit of a project cannot be judged solely based on
-          the metrics shown here. Use your judgement.
-        </p>
-        <div className={styles.grid}>{repoCard}</div>
+        <>
+          <h1>GitHub projects by development effort</h1>
+          <p>
+            Disclaimer: The merit of a project cannot be judged solely on the
+            metrics shown here. Use your judgement.
+          </p>
+          <div className={styles.grid}>{repoCard}</div>
+        </>
       </main>
     </div>
   );
@@ -49,14 +94,6 @@ export default Home;
 
 export async function getServerSideProps() {
   const client = getApolloClient();
-
-  const repositories = [
-    { owner: "ethereum", repo: "go-ethereum" },
-    { owner: "paritytech", repo: "polkadot" },
-    { owner: "ava-labs", repo: "avalanchego" },
-    { owner: "cosmos", repo: "ibc-go" },
-    { owner: "solana-labs", repo: "solana" },
-  ];
 
   const { data } = await client.query<Repo>({
     query: gql`
@@ -76,7 +113,10 @@ export async function getServerSideProps() {
         assignableUsers {
           totalCount
         }
-        pullRequests {
+        openIssues: issues(states: OPEN) {
+          totalCount
+        }
+        pullRequests(states: OPEN) {
           totalCount
         }
         object(expression: "master") {

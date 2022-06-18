@@ -1,6 +1,7 @@
 .card_link {
   padding: 0.25rem 0;
   z-index: 1;
+  position: relative;
 }
 
 .card_link:hover,
