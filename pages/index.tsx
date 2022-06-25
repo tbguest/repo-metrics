@@ -1,14 +1,9 @@
 import { gql } from "@apollo/client";
-import classNames from "classnames";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
-import { AiFillStar } from "react-icons/ai";
-import { BiGitPullRequest } from "react-icons/bi";
-import { VscIssues, VscRepoForked } from "react-icons/vsc";
 import { getApolloClient } from "../apollo-client";
-import { BarPlot } from "../components/BarPlot";
-import { CardLink } from "../components/CardLink";
+import { CardGrid } from "../components/CardGrid";
 import { Repo } from "../models";
 import styles from "../styles/Home.module.css";
 
@@ -31,54 +26,6 @@ const Home: NextPage = ({ repo }: Repo) => {
     setOpen(list);
   };
 
-  const repoCards = Object.keys(repo).map((key, index) => {
-    // TODO: handle the unsavoury typescript in here...
-    return (
-      <div
-        className={classNames(styles.repocard, {
-          [styles.repocard_clicked]: open[index],
-        })}
-        key={key}
-      >
-        <CardLink onClick={() => handlePlotClick(index)} open={open[index]}>
-          <h2>{(repo as any)[key].nameWithOwner}</h2>
-          <h3>{(repo as any)[key].description}</h3>
-          <div className={styles.content}>
-            <div className={styles.list}>
-              <p>
-                <AiFillStar /> stars:{" "}
-                <strong>{(repo as any)[key].stargazerCount}</strong>
-              </p>
-              <p>
-                <VscIssues /> issues (open):{" "}
-                <strong>{(repo as any)[key].openIssues.totalCount}</strong>
-              </p>
-              <p>
-                <VscRepoForked /> forks:{" "}
-                <strong>{(repo as any)[key].forkCount}</strong>
-              </p>
-              <p>
-                <BiGitPullRequest /> pull requests (open):{" "}
-                <strong>{(repo as any)[key].pullRequests.totalCount}</strong>
-              </p>
-            </div>
-            <div
-              className={classNames(styles.plot, {
-                [styles.plot_open]: open[index],
-              })}
-            >
-              <div className={styles.chart}>
-                {open[index] && (
-                  <BarPlot name={(repo as any)[key].nameWithOwner} />
-                )}
-              </div>
-            </div>
-          </div>
-        </CardLink>
-      </div>
-    );
-  });
-
   return (
     <div className={styles.container}>
       <Head>
@@ -93,7 +40,7 @@ const Home: NextPage = ({ repo }: Repo) => {
             Disclaimer: The merit of a project cannot be judged solely on the
             metrics shown here. Use your judgement.
           </p>
-          <div className={styles.grid}>{repoCards}</div>
+          <CardGrid repo={repo} open={open} onClick={handlePlotClick} />
         </>
       </main>
     </div>

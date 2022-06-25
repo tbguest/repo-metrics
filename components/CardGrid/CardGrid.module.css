@@ -1,0 +1,48 @@
+.repocard {
+  position: relative;
+}
+
+.repocard:hover {
+  animation: box-size 2s;
+}
+
+.repocard_clicked {
+  position: relative;
+  animation: box-size 2s;
+}
+
+.repocard button {
+  position: absolute;
+  left: -20px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.list {
+  display: grid;
+  width: 100%;
+  grid-template: 1fr 1fr / 1fr 1fr;
+  margin-bottom: 1rem;
+}
+
+.list p {
+  margin: 0.5rem;
+  overflow-wrap: break-word;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  max-width: 650px;
+  gap: 40px;
+  margin: 2rem 0 0 0;
+  padding: 0;
+  width: 100%;
+}
+
+.chart {
+  width: 100%;
+}
