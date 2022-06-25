@@ -5,13 +5,14 @@ import { Card } from "../Card";
 
 type CardLinkProps = {
   onClick: () => void;
+  open: boolean;
   children: React.ReactNode;
   style?: React.CSSProperties;
 };
 
-const CardLink = ({ onClick, children, style }: CardLinkProps) => {
+const CardLink = ({ onClick, open, children, style }: CardLinkProps) => {
   return (
-    <Card onClick={onClick} style={style}>
+    <Card onClick={onClick} open={open} style={style}>
       <div>
         <a className={styles.card_link} />
       </div>

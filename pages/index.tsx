@@ -39,7 +39,7 @@ const Home: NextPage = ({ repo }: Repo) => {
         })}
         key={key}
       >
-        <CardLink onClick={() => handlePlotClick(index)}>
+        <CardLink onClick={() => handlePlotClick(index)} open={open[index]}>
           <h2>{repo[key].nameWithOwner}</h2>
           <h3>{repo[key].description}</h3>
           <div className={styles.content}>
@@ -60,7 +60,6 @@ const Home: NextPage = ({ repo }: Repo) => {
                 <strong>{repo[key].pullRequests.totalCount}</strong>
               </p>
             </div>
-            <span className={styles.prompt}>show commits</span>
             <div
               className={classNames(styles.plot, {
                 [styles.plot_open]: open[index],
