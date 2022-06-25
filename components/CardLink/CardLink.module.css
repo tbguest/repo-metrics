@@ -20,9 +20,3 @@
   left: 0;
   border-radius: var(--border-radius);
 }
-
-.card_link:hover::after,
-.card_link:focus::after,
-.card_link:active::after {
-  /* background-color: var(--background-color-hover); */
-}
