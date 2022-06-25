@@ -1,8 +1,8 @@
 .plot {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 100%;
+  height: var(--plot-height);
   /* max-width: 400px; */
+  position: relative;
+  /* border: 3px solid green; */
+  margin: 0 auto;
 }

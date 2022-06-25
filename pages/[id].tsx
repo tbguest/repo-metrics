@@ -46,7 +46,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const { id } = context.params;
 
-  console.log("id", id);
+  // console.log("id", id);
 
   const data = await octokit.request(
     "GET /repos/{owner}/{repo}/stats/commit_activity",

@@ -22,4 +22,5 @@ a {
   --background-color: white;
   --background-color-hover: rgba(233, 233, 233, 0.5);
   --border-radius: 8px;
+  --plot-height: 210px;
 }

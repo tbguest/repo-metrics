@@ -1,18 +1,16 @@
 import { gql } from "@apollo/client";
+import classNames from "classnames";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
 import { AiFillStar } from "react-icons/ai";
-import { VscRepoForked } from "react-icons/vsc";
+import { BiGitPullRequest } from "react-icons/bi";
+import { VscIssues, VscRepoForked } from "react-icons/vsc";
 import { getApolloClient } from "../apollo-client";
+import { BarPlot } from "../components/BarPlot";
 import { CardLink } from "../components/CardLink";
 import { Repo } from "../models";
 import styles from "../styles/Home.module.css";
-import { BarPlot } from "../components/BarPlot";
-import { BarChart } from "../components/BarChart";
-import classNames from "classnames";
-import { BiGitPullRequest } from "react-icons/bi";
-import { VscIssues } from "react-icons/vsc";
 
 const repositories = [
   { owner: "ethereum", repo: "go-ethereum" },
@@ -33,7 +31,7 @@ const Home: NextPage = ({ repo }: Repo) => {
     setOpen(list);
   };
 
-  const repoCard = Object.keys(repo).map((key: string, index) => {
+  const repoCards = Object.keys(repo).map((key: string, index) => {
     return (
       <div
         className={classNames(styles.repocard, {
@@ -51,18 +49,27 @@ const Home: NextPage = ({ repo }: Repo) => {
                 <strong>{repo[key].stargazerCount}</strong>
               </p>
               <p>
-                <VscRepoForked /> forks: <strong>{repo[key].forkCount}</strong>
-              </p>
-              <p>
                 <VscIssues /> issues (open):{" "}
                 <strong>{repo[key].openIssues.totalCount}</strong>
+              </p>
+              <p>
+                <VscRepoForked /> forks: <strong>{repo[key].forkCount}</strong>
               </p>
               <p>
                 <BiGitPullRequest /> pull requests (open):{" "}
                 <strong>{repo[key].pullRequests.totalCount}</strong>
               </p>
             </div>
-            {open[index] && <BarPlot name={repo[key].nameWithOwner} />}
+            <span className={styles.prompt}>show commits</span>
+            <div
+              className={classNames(styles.plot, {
+                [styles.plot_open]: open[index],
+              })}
+            >
+              <div className={styles.chart}>
+                {open[index] && <BarPlot name={repo[key].nameWithOwner} />}
+              </div>
+            </div>
           </div>
         </CardLink>
       </div>
@@ -83,7 +90,7 @@ const Home: NextPage = ({ repo }: Repo) => {
             Disclaimer: The merit of a project cannot be judged solely on the
             metrics shown here. Use your judgement.
           </p>
-          <div className={styles.grid}>{repoCard}</div>
+          <div className={styles.grid}>{repoCards}</div>
         </>
       </main>
     </div>

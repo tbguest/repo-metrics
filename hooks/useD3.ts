@@ -1,6 +1,11 @@
 import React from "react";
 import * as d3 from "d3";
 
+type Props = {
+  renderChartFn: any;
+  dependencies: any;
+};
+
 export const useD3 = (renderChartFn, dependencies) => {
   const ref = React.useRef();
 

@@ -35,3 +35,13 @@ export interface RepoFields {
     };
   };
 }
+
+export interface CommitFields {
+  total: number;
+  week: number;
+  days: number[];
+}
+
+export interface Commits {
+  [key: number]: CommitFields;
+}

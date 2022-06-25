@@ -1,20 +1,24 @@
 import { useD3 } from "../../hooks/useD3";
 import React from "react";
 import * as d3 from "d3";
+import { Commits } from "../../models";
+import styles from "./BarChart.module.css";
 
-function BarChart({ data, width, height }) {
+type Props = {
+  data: Commits;
+  width: number;
+  height: number;
+};
+
+function BarChart({ data, width, height }: Props) {
   const ref = useD3(
     (svg) => {
-      //   const height = height;
-      //   const width = width;
       const margin = { top: 20, right: 30, bottom: 30, left: 40 };
-
-      console.log(data.map((d, i) => i));
-
       const x = d3
         .scaleBand()
         // .domain(data.map((d) => d.week))
-        .domain(data.map((d, i) => i + 1))
+        // .domain(data.map((d, i) => i + 1))
+        .domain(data.map((d, i) => 52 - i))
         // .rangeRound([margin.left, width - margin.right])
         .range([margin.left, width - margin.right])
         .padding(0.1);
@@ -73,22 +77,13 @@ function BarChart({ data, width, height }) {
   );
 
   return (
-    <svg
-      ref={ref}
-      //   viewBox={`0 0 ${height} ${width}`}
-      style={{
-        height: height,
-        // height: "100%",
-        // width: "100%",
-        // width: width,
-        marginRight: "0px",
-        marginLeft: "0px",
-      }}
-    >
-      <g className="plot-area" />
-      <g className="x-axis" />
-      <g className="y-axis" />
-    </svg>
+    <div>
+      <svg ref={ref} viewBox={`0 0 ${height} ${width}`} className={styles.svg}>
+        <g className="plot-area" />
+        <g className="x-axis" />
+        <g className="y-axis" />
+      </svg>
+    </div>
   );
 }
 
