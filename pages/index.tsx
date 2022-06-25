@@ -31,7 +31,8 @@ const Home: NextPage = ({ repo }: Repo) => {
     setOpen(list);
   };
 
-  const repoCards = Object.keys(repo).map((key: string, index) => {
+  const repoCards = Object.keys(repo).map((key, index) => {
+    // TODO: handle the unsavoury typescript in here...
     return (
       <div
         className={classNames(styles.repocard, {
@@ -40,24 +41,25 @@ const Home: NextPage = ({ repo }: Repo) => {
         key={key}
       >
         <CardLink onClick={() => handlePlotClick(index)} open={open[index]}>
-          <h2>{repo[key].nameWithOwner}</h2>
-          <h3>{repo[key].description}</h3>
+          <h2>{(repo as any)[key].nameWithOwner}</h2>
+          <h3>{(repo as any)[key].description}</h3>
           <div className={styles.content}>
             <div className={styles.list}>
               <p>
                 <AiFillStar /> stars:{" "}
-                <strong>{repo[key].stargazerCount}</strong>
+                <strong>{(repo as any)[key].stargazerCount}</strong>
               </p>
               <p>
                 <VscIssues /> issues (open):{" "}
-                <strong>{repo[key].openIssues.totalCount}</strong>
+                <strong>{(repo as any)[key].openIssues.totalCount}</strong>
               </p>
               <p>
-                <VscRepoForked /> forks: <strong>{repo[key].forkCount}</strong>
+                <VscRepoForked /> forks:{" "}
+                <strong>{(repo as any)[key].forkCount}</strong>
               </p>
               <p>
                 <BiGitPullRequest /> pull requests (open):{" "}
-                <strong>{repo[key].pullRequests.totalCount}</strong>
+                <strong>{(repo as any)[key].pullRequests.totalCount}</strong>
               </p>
             </div>
             <div
@@ -66,7 +68,9 @@ const Home: NextPage = ({ repo }: Repo) => {
               })}
             >
               <div className={styles.chart}>
-                {open[index] && <BarPlot name={repo[key].nameWithOwner} />}
+                {open[index] && (
+                  <BarPlot name={(repo as any)[key].nameWithOwner} />
+                )}
               </div>
             </div>
           </div>
