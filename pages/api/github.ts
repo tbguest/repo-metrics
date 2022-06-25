@@ -12,11 +12,7 @@ export default async function handler(
 
   try {
     const data = await githubClient.request(
-      "GET /repos/{owner}/{repo}/stats/commit_activity",
-      {
-        owner: owner,
-        repo: repo,
-      }
+      `GET /repos/${owner}/${repo}/stats/commit_activity`
     );
     res.json({ data });
   } catch (e) {
