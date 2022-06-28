@@ -58,7 +58,7 @@ const BarPlot = ({ name }: any) => {
     labels: data.data.data.map((_: CommitFields, i: number) => 52 - i),
     datasets: [
       {
-        label: "commits",
+        label: "commits by week",
         data: data.data.data.map((t: any) => t.total),
         backgroundColor: "rgb(57, 211, 83)",
       },
