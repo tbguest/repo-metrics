@@ -6,6 +6,7 @@ import { getApolloClient } from "../apollo-client";
 import { CardGrid } from "../components/CardGrid";
 import { Repo } from "../models";
 import styles from "../styles/Home.module.css";
+import { AddRepoForm } from "../components/AddRepoForm";
 
 const repositories = [
   { owner: "ethereum", repo: "go-ethereum" },
@@ -16,7 +17,9 @@ const repositories = [
 ];
 
 const Home: NextPage = ({ repo }: Repo) => {
-  const openList = repositories.map(() => false);
+  // const [repoList, setRepoList] = useState(repositories);
+
+  const openList = repoList?.map(() => false);
   const [open, setOpen] = useState(openList);
 
   // toggle the plot state boolean by index
@@ -40,6 +43,7 @@ const Home: NextPage = ({ repo }: Repo) => {
             Disclaimer: The merit of a project cannot be judged solely on the
             metrics shown here. Use your judgement.
           </p>
+          <AddRepoForm repositories={repositories} />
           <CardGrid repo={repo} open={open} onClick={handlePlotClick} />
         </>
       </main>
