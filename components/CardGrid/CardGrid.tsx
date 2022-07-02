@@ -5,43 +5,41 @@ import { BarPlot } from "../../components/BarPlot";
 import { AiFillStar } from "react-icons/ai";
 import { BiGitPullRequest } from "react-icons/bi";
 import { VscIssues, VscRepoForked } from "react-icons/vsc";
+import { Repo } from "../../models";
 
 type Props = {
-  repo: any;
-  open: any;
-  onClick: any;
+  repos: Repo[];
+  open: boolean[];
+  onClick: (index: number) => void;
 };
 
-const CardGrid = ({ repo, open, onClick }: Props) => {
-  const repoCards = Object.keys(repo).map((key, index) => {
-    // TODO: handle the unsavoury typescript in here...
+const CardGrid = ({ repos, open, onClick }: Props) => {
+  const repoCards = repos.map((repo, index) => {
     return (
       <div
         className={classNames(styles.repocard, {
           [styles.repocard_clicked]: open[index],
         })}
-        key={key}
+        key={repo.id}
       >
         <CardLink onClick={() => onClick(index)} open={open[index]}>
-          <h2>{(repo as any)[key].nameWithOwner}</h2>
-          <h3>{(repo as any)[key].description}</h3>
+          <h2>{repo.nameWithOwner}</h2>
+          <h3>{repo.description}</h3>
           <div className={styles.content}>
             <div className={styles.list}>
               <p>
-                <AiFillStar /> stars:{" "}
-                <strong>{(repo as any)[key].stargazerCount}</strong>
+                <AiFillStar /> stars: <strong>{repo.stargazerCount}</strong>
               </p>
               <p>
                 <VscIssues /> issues (open):{" "}
-                <strong>{(repo as any)[key].openIssues.totalCount}</strong>
+                <strong>{repo.openIssues.totalCount}</strong>
               </p>
               <p>
-                <VscRepoForked /> forks:{" "}
-                <strong>{(repo as any)[key].forkCount}</strong>
+                <VscRepoForked /> forks: <strong>{repo.forkCount}</strong>
               </p>
               <p>
                 <BiGitPullRequest /> pull requests (open):{" "}
-                <strong>{(repo as any)[key].pullRequests.totalCount}</strong>
+                <strong>{repo.pullRequests.totalCount}</strong>
               </p>
             </div>
             <div
@@ -50,9 +48,7 @@ const CardGrid = ({ repo, open, onClick }: Props) => {
               })}
             >
               <div className={styles.chart}>
-                {open[index] && (
-                  <BarPlot name={(repo as any)[key].nameWithOwner} />
-                )}
+                {open[index] && <BarPlot name={repo.nameWithOwner} />}
               </div>
             </div>
           </div>

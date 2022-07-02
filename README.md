@@ -6,6 +6,5 @@ Built with React, TypeScript, and Next.js, using:
 
 - Apollo Client to query repository data via GitHub GraphQL API on the server side
 - `useSWR` hook for fetching additional summary statistics client-side via the GitHub REST API
-- D3 for visuals
 
-I started this project to explore Apollo Client and GraphQL. I had intended to use dynamic routing to make repo-specific requests to the GraphQL API, but it quickly became clear that fetching summary commit data from GitHub's REST API would save a lot of effort, hence the use of both APIs.
+Note: I started this project to explore Apollo Client and GraphQL. In this project's current form, there's no particular benefit to having used GraphQL to fetch the repositories' data. The information used is readily available via the GitHub REST API.

@@ -1,21 +1,48 @@
 import { gql } from "@apollo/client";
-import type { NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
 import { getApolloClient } from "../apollo-client";
 import { CardGrid } from "../components/CardGrid";
-import { Repo } from "../models";
+import { AllRepos } from "../models";
 import styles from "../styles/Home.module.css";
 
 const repositories = [
-  { owner: "ethereum", repo: "go-ethereum" },
-  { owner: "paritytech", repo: "polkadot" },
-  { owner: "ava-labs", repo: "avalanchego" },
-  { owner: "cosmos", repo: "ibc-go" },
-  { owner: "solana-labs", repo: "solana" },
+  {
+    owner: "ethereum",
+    repo: "go-ethereum",
+    node_id: "MDEwOlJlcG9zaXRvcnkxNTQ1MjkxOQ==",
+  },
+  {
+    owner: "paritytech",
+    repo: "polkadot",
+    node_id: "MDEwOlJlcG9zaXRvcnkxNDQxNDAzNDI=",
+  },
+  {
+    owner: "ava-labs",
+    repo: "avalanchego",
+    node_id: "MDEwOlJlcG9zaXRvcnkyNDYzODc2NDQ=",
+  },
+  {
+    owner: "cosmos",
+    repo: "ibc-go",
+    node_id: "MDEwOlJlcG9zaXRvcnkzMzc3NjQ1OTQ=",
+  },
+  {
+    owner: "solana-labs",
+    repo: "solana",
+    node_id: "MDEwOlJlcG9zaXRvcnkxMjE0NzAzODM=",
+  },
 ];
 
-const Home: NextPage = ({ repo }: Repo) => {
+const repositoryIDs = [
+  "MDEwOlJlcG9zaXRvcnkxNTQ1MjkxOQ==",
+  "MDEwOlJlcG9zaXRvcnkxNDQxNDAzNDI=",
+  "MDEwOlJlcG9zaXRvcnkyNDYzODc2NDQ=",
+  "MDEwOlJlcG9zaXRvcnkzMzc3NjQ1OTQ=",
+  "MDEwOlJlcG9zaXRvcnkxMjE0NzAzODM=",
+];
+
+const Home = ({ nodes }: AllRepos) => {
   const openList = repositories.map(() => false);
   const [open, setOpen] = useState(openList);
 
@@ -25,6 +52,8 @@ const Home: NextPage = ({ repo }: Repo) => {
     list[i] = !list[i];
     setOpen(list);
   };
+
+  console.log("nodes", nodes);
 
   return (
     <div className={styles.container}>
@@ -40,7 +69,7 @@ const Home: NextPage = ({ repo }: Repo) => {
             Disclaimer: The merit of a project cannot be judged solely on the
             metrics shown here. Use your judgement.
           </p>
-          <CardGrid repo={repo} open={open} onClick={handlePlotClick} />
+          <CardGrid repos={nodes} open={open} onClick={handlePlotClick} />
         </>
       </main>
     </div>
@@ -52,58 +81,46 @@ export default Home;
 export async function getServerSideProps() {
   const client = getApolloClient();
 
-  const { data } = await client.query<Repo>({
+  const { data } = await client.query<AllRepos>({
     query: gql`
-      fragment repoProperties on Repository {
-        id
-        description
-        forkCount
-        name
-        nameWithOwner
-        stargazerCount
-        issues {
-          totalCount
-        }
-        mentionableUsers {
-          totalCount
-        }
-        assignableUsers {
-          totalCount
-        }
-        openIssues: issues(states: OPEN) {
-          totalCount
-        }
-        pullRequests(states: OPEN) {
-          totalCount
-        }
-        object(expression: "master") {
-          ... on Commit {
+      query InputRepos($id: [ID!]!) {
+        nodes(ids: $id) {
+          ... on Repository {
             id
-            history {
+            description
+            forkCount
+            name
+            nameWithOwner
+            stargazerCount
+            issues {
+              totalCount
+            }
+            mentionableUsers {
+              totalCount
+            }
+            assignableUsers {
+              totalCount
+            }
+            openIssues: issues(states: OPEN) {
+              totalCount
+            }
+            pullRequests(states: OPEN) {
               totalCount
             }
           }
         }
       }
-      
-      {
-        ${repositories
-          .map(
-            ({ owner, repo }, index) => `repo${
-              index + 1
-            }: repository(owner: "${owner}", name: "${repo}") {
-          ...repoProperties
-        }`
-          )
-          .join("\n")}
-      }`,
+    `,
+    variables: {
+      id: repositoryIDs,
+    },
   });
 
-  const repo = data;
+  const nodes = data.nodes;
 
   return {
     props: {
-      repo,
+      nodes,
     },
   };
 }
