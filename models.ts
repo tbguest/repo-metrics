@@ -3,11 +3,10 @@ export type DocumentHead = {
   description: string;
 };
 
-export interface Repo {
-  [key: string]: RepoFields;
+export interface AllRepos {
+  nodes: Repo[];
 }
-
-export interface RepoFields {
+export interface Repo {
   id: string;
   description: string;
   forkCount: number;
@@ -23,16 +22,11 @@ export interface RepoFields {
   assignableUsers: {
     totalCount: number;
   };
-  pullRequests: {
+  openIssues: {
     totalCount: number;
   };
-  object: {
-    __typename: string;
-    id: string;
-    history: {
-      __typename: string;
-      totalCount: number;
-    };
+  pullRequests: {
+    totalCount: number;
   };
 }
 
