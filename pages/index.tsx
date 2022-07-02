@@ -53,8 +53,6 @@ const Home = ({ nodes }: AllRepos) => {
     setOpen(list);
   };
 
-  console.log("nodes", nodes);
-
   return (
     <div className={styles.container}>
       <Head>
