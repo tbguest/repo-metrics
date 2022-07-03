@@ -8,38 +8,11 @@ import styles from "../styles/Home.module.css";
 import { AddRepoForm } from "../components/AddRepoForm";
 import { useRouter } from "next/router";
 import clientPromise from "../lib/mongodb";
+import useSWR from "swr";
 
-const repositories = [
-  {
-    owner: "ethereum",
-    repo: "go-ethereum",
-    node_id: "MDEwOlJlcG9zaXRvcnkxNTQ1MjkxOQ==",
-  },
-  {
-    owner: "paritytech",
-    repo: "polkadot",
-    node_id: "MDEwOlJlcG9zaXRvcnkxNDQxNDAzNDI=",
-  },
-  {
-    owner: "ava-labs",
-    repo: "avalanchego",
-    node_id: "MDEwOlJlcG9zaXRvcnkyNDYzODc2NDQ=",
-  },
-  {
-    owner: "cosmos",
-    repo: "ibc-go",
-    node_id: "MDEwOlJlcG9zaXRvcnkzMzc3NjQ1OTQ=",
-  },
-  {
-    owner: "solana-labs",
-    repo: "solana",
-    node_id: "MDEwOlJlcG9zaXRvcnkxMjE0NzAzODM=",
-  },
-];
-
-const Home = ({ nodes }: AllRepos) => {
-  const [repoList, setRepoList] = useState(repositories);
-  const openList = repositories.map(() => false);
+const Home = ({ nodes, repos }: AllRepos) => {
+  const [repoList, setRepoList] = useState(repos);
+  const openList = repos.map(() => false);
   const [open, setOpen] = useState(openList);
 
   const router = useRouter();
@@ -84,13 +57,13 @@ export async function getServerSideProps() {
 
   const dbClient = await clientPromise;
   const db = dbClient.db(process.env.MONGODB_DB);
-  const repos = await db
+  const response = await db
     .collection("repositories")
     .find({})
     .limit(20)
     .toArray();
 
-  const ids = repos.map((item) => item.node_id);
+  const ids = response.map((item) => item.node_id);
 
   const { data } = await client.query<AllRepos>({
     query: gql`
@@ -128,10 +101,12 @@ export async function getServerSideProps() {
   });
 
   const nodes = data.nodes;
+  const repos = JSON.parse(JSON.stringify(response));
 
   return {
     props: {
       nodes,
+      repos: repos,
     },
   };
 }
