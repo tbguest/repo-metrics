@@ -47,7 +47,7 @@ const BarPlot = ({ name }: any) => {
   const [owner, repo] = name.split("/");
 
   const { data, error } = useSWR(
-    `/api/github?owner=${owner}&repo=${repo}`,
+    `/api/github-commits?owner=${owner}&repo=${repo}`,
     fetcher
   );
 

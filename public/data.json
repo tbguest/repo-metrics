@@ -1,0 +1,27 @@
+[
+  {
+    "owner": "ethereum",
+    "repo": "go-ethereum",
+    "node_id": "MDEwOlJlcG9zaXRvcnkxNTQ1MjkxOQ=="
+  },
+  {
+    "owner": "paritytech",
+    "repo": "polkadot",
+    "node_id": "MDEwOlJlcG9zaXRvcnkxNDQxNDAzNDI="
+  },
+  {
+    "owner": "ava-labs",
+    "repo": "avalanchego",
+    "node_id": "MDEwOlJlcG9zaXRvcnkyNDYzODc2NDQ="
+  },
+  {
+    "owner": "cosmos",
+    "repo": "ibc-go",
+    "node_id": "MDEwOlJlcG9zaXRvcnkzMzc3NjQ1OTQ="
+  },
+  {
+    "owner": "solana-labs",
+    "repo": "solana",
+    "node_id": "MDEwOlJlcG9zaXRvcnkxMjE0NzAzODM="
+  }
+]

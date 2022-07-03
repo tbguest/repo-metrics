@@ -1,40 +1,38 @@
 import { useInput } from "../../hooks";
 import styles from "./AddRepoForm.module.css";
-
 import React, { useState } from "react";
 
-const AddRepoForm = ({ repositories }) => {
+type Props = {
+  repoList: any;
+  setRepoList: any;
+};
+
+const AddRepoForm = ({ repoList, setRepoList }: Props) => {
   const [owner, ownerInput] = useInput({ placeholder: "owner" });
   const [repo, repoInput] = useInput({ placeholder: "repo" });
+  const [status, setStatus] = useState("");
 
-  const [repoList, setRepoList] = useState(repositories);
-
-  const [state, setState] = useState({
-    owner: "",
-    repo: "",
-  });
-
-  this.setState((prevState) => ({
-    food: {
-      ...prevState.food, // copy all other key-value pairs of food object
-      pizza: {
-        // specific object of food object
-        ...prevState.food.pizza, // copy all pizza key-value pairs
-        extraCheese: true, // update value of specific key
-      },
-    },
-  }));
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     alert("You have submitted the form.");
 
     // validate the repo
+    try {
+      let res = await fetch(`/api/github-id?owner=${owner}&repo=${repo}`);
+      let response = await res.json();
 
-    const address = String(owner).concat("/", String(repo));
-    console.log("address", address);
+      const newRepoObject = {
+        owner: owner,
+        repo: repo,
+        node_id: response.data.data.node_id,
+      };
 
-    // { owner: "solana-labs", repo: "solana" },
+      setRepoList([...repoList, newRepoObject]);
+      setStatus("success");
+    } catch {
+      console.log("ERROR");
+      setStatus("failed");
+    }
   };
 
   return (

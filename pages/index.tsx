@@ -6,6 +6,8 @@ import { CardGrid } from "../components/CardGrid";
 import { AllRepos } from "../models";
 import styles from "../styles/Home.module.css";
 import { AddRepoForm } from "../components/AddRepoForm";
+import { useRouter } from "next/router";
+import clientPromise from "../lib/mongodb";
 
 const repositories = [
   {
@@ -35,17 +37,16 @@ const repositories = [
   },
 ];
 
-const repositoryIDs = [
-  "MDEwOlJlcG9zaXRvcnkxNTQ1MjkxOQ==",
-  "MDEwOlJlcG9zaXRvcnkxNDQxNDAzNDI=",
-  "MDEwOlJlcG9zaXRvcnkyNDYzODc2NDQ=",
-  "MDEwOlJlcG9zaXRvcnkzMzc3NjQ1OTQ=",
-  "MDEwOlJlcG9zaXRvcnkxMjE0NzAzODM=",
-];
-
 const Home = ({ nodes }: AllRepos) => {
+  const [repoList, setRepoList] = useState(repositories);
   const openList = repositories.map(() => false);
   const [open, setOpen] = useState(openList);
+
+  const router = useRouter();
+  // Call this to refresh serverside props
+  const refreshData = () => {
+    router.replace(router.asPath);
+  };
 
   // toggle the plot state boolean by index
   const handlePlotClick = (i: number) => {
@@ -68,7 +69,7 @@ const Home = ({ nodes }: AllRepos) => {
             Disclaimer: The merit of a project cannot be judged solely on the
             metrics shown here. Use your judgement.
           </p>
-          <AddRepoForm repositories={repositories} />
+          <AddRepoForm repoList={repoList} setRepoList={setRepoList} />
           <CardGrid repos={nodes} open={open} onClick={handlePlotClick} />
         </>
       </main>
@@ -80,6 +81,16 @@ export default Home;
 
 export async function getServerSideProps() {
   const client = getApolloClient();
+
+  const dbClient = await clientPromise;
+  const db = dbClient.db(process.env.MONGODB_DB);
+  const repos = await db
+    .collection("repositories")
+    .find({})
+    .limit(20)
+    .toArray();
+
+  const ids = repos.map((item) => item.node_id);
 
   const { data } = await client.query<AllRepos>({
     query: gql`
@@ -112,7 +123,7 @@ export async function getServerSideProps() {
       }
     `,
     variables: {
-      id: repositoryIDs,
+      id: ids,
     },
   });
 
