@@ -4,10 +4,7 @@ if (!process.env.MONGODB_URI) {
   throw new Error("Please add your Mongo URI to .env.local");
 }
 
-// MONGODB_URI="mongodb+srv://tbguest:mz9p3YBkqc3VD4BeKMX9@cluster0.d6ziy.mongodb.net/?retryWrites=true&w=majority"
-
 const uri: string = process.env.MONGODB_URI;
-// mz9p3YBkqc3VD4BeKMX9
 let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
 

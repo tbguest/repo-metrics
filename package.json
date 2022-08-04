@@ -12,6 +12,8 @@
     "@apollo/client": "^3.6.5",
     "@octokit/core": "^3.6.0",
     "@octokit/rest": "^18.12.0",
+    "apollo-link-context": "^1.0.20",
+    "apollo-link-http": "^1.5.17",
     "chart.js": "^3.8.0",
     "classnames": "^2.3.1",
     "d3": "^7.4.4",
