@@ -7,39 +7,27 @@ import { CardLink } from "../../components/CardLink";
 import { Repo } from "../../models";
 import styles from "./CardGrid.module.css";
 
-import { useQuery } from "@apollo/client";
-import { repoQuery } from "../../queries/repositories";
-
-// type Props = {
-//   repos: Repo[];
-//   open: boolean[];
-//   onClick: (index: number) => void;
-// };
 type Props = {
-  // ids: String[];
-  repoList: Repo[];
+  // repoData: Repo[];
+  repoData: any;
+  loading: String;
   open: boolean[];
   onClick: (index: number) => void;
 };
 
-// const CardGrid = ({ ids, open, onClick }: Props) => {
-const CardGrid = ({ repoList, open, onClick }: Props) => {
-  const ids = repoList.map((item: any) => item.node_id);
-
-  const { data, loading, error } = useQuery(repoQuery, {
-    variables: { id: ids },
-  });
-
-  if (loading) {
+const CardGrid = ({ repoData, loading, open, onClick }: Props) => {
+  if (repoData === "loading") {
+    // if (loading === "loading") {
     return <h2>Loading...</h2>;
   }
 
-  if (error) {
-    console.error(error);
+  if (repoData === "error") {
+    // if (loading === "error") {
+    // console.error(error);
     return null;
   }
 
-  const repoCards = data.nodes.map((repo: Repo, index: any) => {
+  const repoCards = repoData.map((repo: Repo, index: any) => {
     return (
       <div
         className={classNames(styles.repocard, {

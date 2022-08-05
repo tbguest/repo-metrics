@@ -12,11 +12,8 @@ const AddRepoForm = ({ repoList, setRepoList }: Props) => {
   const [repo, repoInput] = useInput({ placeholder: "repo" });
   const [status, setStatus] = useState("");
 
-  console.log("repoList", repoList);
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // alert("You have submitted the form.");
 
     // validate the repo
     try {
