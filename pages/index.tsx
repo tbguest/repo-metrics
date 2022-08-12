@@ -56,6 +56,22 @@ const Home = ({
     setOpen(list);
   };
 
+  // toggle the plot state boolean by index
+  const handleDelete = async (id: String) => {
+    const updatedList = repoList.filter((item: any) => {
+      return item.node_id != id;
+    });
+    setRepoList(updatedList);
+
+    const response = await fetch(`/api/repositories?id=${id}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -76,6 +92,7 @@ const Home = ({
             loading={loading}
             open={open}
             onClick={handlePlotClick}
+            onClose={handleDelete}
           />
         </>
       </main>

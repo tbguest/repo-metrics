@@ -13,9 +13,10 @@ type Props = {
   loading: String;
   open: boolean[];
   onClick: (index: number) => void;
+  onClose: (index: String) => void;
 };
 
-const CardGrid = ({ repoData, loading, open, onClick }: Props) => {
+const CardGrid = ({ repoData, loading, open, onClick, onClose }: Props) => {
   if (repoData === "loading") {
     // if (loading === "loading") {
     return <h2>Loading...</h2>;
@@ -35,6 +36,9 @@ const CardGrid = ({ repoData, loading, open, onClick }: Props) => {
         })}
         key={repo.id}
       >
+        <button className={styles.close} onClick={() => onClose(repo.id)}>
+          Remove
+        </button>
         <CardLink onClick={() => onClick(index)} open={open[index]}>
           <h2>{repo.nameWithOwner}</h2>
           <h3>{repo.description}</h3>

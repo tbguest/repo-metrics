@@ -1,19 +1,9 @@
 import clientPromise from "../../lib/mongodb";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-type RepoIDs = {
-  owner: string;
-  repo: string;
-  node_id: string;
-};
-
-interface Data {
-  repos: RepoIDs;
-}
-
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
   const { method } = req;
 
@@ -31,8 +21,7 @@ export default async function handler(
 
         res.status(200).json(JSON.parse(JSON.stringify(response)));
       } catch (error) {
-        // res.status(400).json({ success: false })
-        res.status(400);
+        res.status(400).json({ success: false });
       }
       break;
 
@@ -41,43 +30,32 @@ export default async function handler(
         const data = req.body.document;
 
         const response = await db.collection("repositories").insertOne(data);
-        console.log(response);
-        // res.status(201).json({ message: "Data inserted successfully!" });
-        res.status(201);
-
         if (!response) {
-          // return res.status(400).json({ success: false });
-          return res.status(400);
+          return res.status(400).json({ success: false });
         }
-        // res.status(200).json({ success: true, data: response });
-        res.status(200);
+        res.status(201).json({ success: true, data: response });
       } catch (error) {
-        // res.status(400).json({ success: false });
-        res.status(400);
+        res.status(400).json({ success: false });
       }
       break;
 
-    // case "DELETE":
-    //   try {
-    //     // const deletedPet = await Pet.deleteOne({ _id: id });
-    //     const response = await db
-    //       .collection("repositories")
-    //       .deleteOne({ _id: id });
-    //     if (!response) {
-    //       // return res.status(400).json({ success: false });
-    //       return res.status(400);
-    //     }
-    //     // res.status(200).json({ success: true, data: {} });
-    //     res.status(200);
-    //   } catch (error) {
-    //     // res.status(400).json({ success: false });
-    //     res.status(400);
-    //   }
-    //   break;
+    case "DELETE":
+      const id = req.query.id;
+      try {
+        const response = await db
+          .collection("repositories")
+          .deleteOne({ node_id: id });
+        if (!response) {
+          return res.status(400).json({ success: false });
+        }
+        res.status(200).json({ success: true });
+      } catch (error) {
+        res.status(400).json({ success: false });
+      }
+      break;
 
     default:
-      // res.status(400).json({ success: false });
-      res.status(400);
+      res.status(400).json({ success: false });
       break;
   }
 }
