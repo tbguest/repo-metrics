@@ -71,16 +71,12 @@ const Home = ({
             metrics shown here. Use your judgement.
           </p>
           <AddRepoForm repoList={repoList} setRepoList={setRepoList} />
-          {/* {!loading ? ( */}
           <CardGrid
             repoData={repoData}
             loading={loading}
             open={open}
             onClick={handlePlotClick}
           />
-          {/* ) : (
-            <p>Loading...</p>
-          )} */}
         </>
       </main>
     </div>
