@@ -10,6 +10,10 @@ type CardProps = {
 const Card = ({ children, style }: CardProps) => {
   return (
     <div className={styles.card} style={style}>
+      {/* <button className={styles.close} onClick={() => onClose(repo.id)}> */}
+      {/* <div className={styles.close}>
+        <button onClick={() => onClose(repo.id)}>Remove</button>
+      </div> */}
       {children}
     </div>
   );

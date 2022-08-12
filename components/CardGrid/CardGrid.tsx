@@ -29,9 +29,9 @@ const CardGrid = ({ repoData, loading, onClose }: Props) => {
   const repoCards = repoData.map((repo: Repo, index: any) => {
     return (
       <div className={styles.repocard} key={repo.id}>
-        <button className={styles.close} onClick={() => onClose(repo.id)}>
-          Remove
-        </button>
+        <div className={styles.close}>
+          <button onClick={() => onClose(repo.id)}>Remove</button>
+        </div>
         <CardLink>
           <h2>{repo.nameWithOwner}</h2>
           <h3>{repo.description}</h3>
