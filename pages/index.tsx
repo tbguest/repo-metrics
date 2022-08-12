@@ -11,8 +11,6 @@ const Home = ({
   repos,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [repoList, setRepoList] = useState(repos);
-  const openList = repos.map(() => false);
-  const [open, setOpen] = useState(openList);
   const [repoData, setRepoData] = useState("loading");
   // const [repoData, setRepoData] = useState([]);
   const [loading, setLoading] = useState("idle");
@@ -39,7 +37,7 @@ const Home = ({
       if (!response.ok) {
         // setRepoData("error");
         setLoading("error");
-        throw new Error(`Error: ${response.status}`);
+        throw new Error(`${response.status}`);
       }
       const { data } = await response.json();
       setRepoData(data.nodes);
@@ -48,13 +46,6 @@ const Home = ({
 
     fetchAndSubmitData();
   }, [ids]);
-
-  // toggle the plot state boolean by index
-  const handlePlotClick = (i: number) => {
-    const list = [...open];
-    list[i] = !list[i];
-    setOpen(list);
-  };
 
   // toggle the plot state boolean by index
   const handleDelete = async (id: String) => {
@@ -90,8 +81,6 @@ const Home = ({
           <CardGrid
             repoData={repoData}
             loading={loading}
-            open={open}
-            onClick={handlePlotClick}
             onClose={handleDelete}
           />
         </>

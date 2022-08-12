@@ -11,12 +11,10 @@ type Props = {
   // repoData: Repo[];
   repoData: any;
   loading: String;
-  open: boolean[];
-  onClick: (index: number) => void;
   onClose: (index: String) => void;
 };
 
-const CardGrid = ({ repoData, loading, open, onClick, onClose }: Props) => {
+const CardGrid = ({ repoData, loading, onClose }: Props) => {
   if (repoData === "loading") {
     // if (loading === "loading") {
     return <h2>Loading...</h2>;
@@ -30,16 +28,11 @@ const CardGrid = ({ repoData, loading, open, onClick, onClose }: Props) => {
 
   const repoCards = repoData.map((repo: Repo, index: any) => {
     return (
-      <div
-        className={classNames(styles.repocard, {
-          [styles.repocard_clicked]: open[index],
-        })}
-        key={repo.id}
-      >
+      <div className={styles.repocard} key={repo.id}>
         <button className={styles.close} onClick={() => onClose(repo.id)}>
           Remove
         </button>
-        <CardLink onClick={() => onClick(index)} open={open[index]}>
+        <CardLink>
           <h2>{repo.nameWithOwner}</h2>
           <h3>{repo.description}</h3>
           <div className={styles.content}>
@@ -59,13 +52,9 @@ const CardGrid = ({ repoData, loading, open, onClick, onClose }: Props) => {
                 <strong>{repo.pullRequests.totalCount}</strong>
               </p>
             </div>
-            <div
-              className={classNames(styles.plot, {
-                [styles.plot_open]: open[index],
-              })}
-            >
+            <div className={styles.plot}>
               <div className={styles.chart}>
-                {open[index] && <BarPlot name={repo.nameWithOwner} />}
+                <BarPlot name={repo.nameWithOwner} />
               </div>
             </div>
           </div>
