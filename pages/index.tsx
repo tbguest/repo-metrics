@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AddRepoForm } from "../components/AddRepoForm";
 import { CardGrid } from "../components/CardGrid";
 import styles from "../styles/Home.module.css";
@@ -8,28 +8,23 @@ import useSWR, { mutate } from "swr";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const Home = () => {
-  const useFetchRepoList = () => {
-    const { data } = useSWR("/api/repositories", fetcher);
-    return data;
-  };
+  const { data: list } = useSWR("/api/repositories", fetcher);
+  const ids = list?.map((item: any) => item.node_id);
+  const { data: allData, error: error } = useSWR(
+    () => `/api/gql-repositories?ids=${ids}`,
+    fetcher
+  );
 
-  const initialData = [];
-  const list = useFetchRepoList();
+  // TODO: remove state variables and rely on SWR instead; move data fetching into a hook
+
   const [repoList, setRepoList] = useState(list);
-  const [repoData, setRepoData] = useState("loading");
+  const [repoData, setRepoData] = useState(allData);
   const [loading, setLoading] = useState("idle");
 
-  const useFetchRepoData = (list: any) => {
-    const ids = list?.map((item: any) => item.node_id);
-    const { data, error } = useSWR(`/api/gql-repositories?ids=${ids}`, fetcher);
-    console.log("data", data);
-
-    return { data, error };
-  };
-
-  // const { data, error } = useFetchRepoData();
-  const { data, error } = useFetchRepoData(list);
-  // setRepoData(data?.data.nodes);
+  useEffect(() => {
+    setRepoList(list);
+    setRepoData(allData);
+  }, [list, allData]);
 
   const handleDelete = async (id: String) => {
     const updatedList = repoList.filter((item: any) => {
@@ -46,11 +41,8 @@ const Home = () => {
     }
   };
 
-  // if (error) return <div>Failed to load</div>;
-  // if (!data) return <div>Loading...</div>;
-
-  // if (error) return <div>Failed to load</div>;
-  if (!data) return <div>Loading...</div>;
+  if (error) return <div>Failed to load</div>;
+  if (!repoData) return <div>Loading...</div>;
 
   return (
     <div className={styles.container}>
