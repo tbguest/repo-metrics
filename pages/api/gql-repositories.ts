@@ -9,8 +9,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // this is a POST request
-  const ids = req.body.ids;
+  const ids = String(req.query.ids).split(",");
   const client = getApolloClient();
 
   try {
