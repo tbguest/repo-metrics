@@ -47,7 +47,7 @@ const CardGrid = ({ list, repoData, loading }: Props) => {
     repoData.length === 0 ||
     repoData.error === "Could not resolve to a node with the global id of ''"
   ) {
-    return;
+    return null;
   }
 
   const repoCards = repoData?.data.nodes.map((repo: Repo, index: any) => {
