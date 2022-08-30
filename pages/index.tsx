@@ -1,48 +1,20 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
 import { AddRepoForm } from "../components/AddRepoForm";
 import { CardGrid } from "../components/CardGrid";
 import styles from "../styles/Home.module.css";
-import useSWR, { mutate } from "swr";
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+import { useRepoList, useRepoData } from "../hooks";
 
 const Home = () => {
-  const { data: list } = useSWR("/api/repositories", fetcher);
-  const ids = list?.map((item: any) => item.node_id);
-  const { data: allData, error: error } = useSWR(
-    () => `/api/gql-repositories?ids=${ids}`,
-    fetcher
-  );
+  const {
+    data: list,
+    isLoading: loading,
+    isError: error,
+    mutate,
+  } = useRepoList();
+  const { data, isLoading, isError } = useRepoData(list, loading);
 
-  // TODO: remove state variables and rely on SWR instead; move data fetching into a hook
-
-  const [repoList, setRepoList] = useState(list);
-  const [repoData, setRepoData] = useState(allData);
-  const [loading, setLoading] = useState("idle");
-
-  useEffect(() => {
-    setRepoList(list);
-    setRepoData(allData);
-  }, [list, allData]);
-
-  const handleDelete = async (id: String) => {
-    const updatedList = repoList.filter((item: any) => {
-      return item.node_id != id;
-    });
-    setRepoList(updatedList);
-
-    const response = await fetch(`/api/repositories?id=${id}`, {
-      method: "DELETE",
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status}`);
-    }
-  };
-
-  if (error) return <div>Failed to load</div>;
-  if (!repoData) return <div>Loading...</div>;
+  if (isError) return <div>Failed to load</div>;
+  if (!data || isLoading) return <div>Loading...</div>;
 
   return (
     <div className={styles.container}>
@@ -61,12 +33,8 @@ const Home = () => {
             Disclaimer: The merit of a project cannot be judged solely on the
             metrics shown here. Use your judgement.
           </p>
-          <AddRepoForm repoList={repoList} setRepoList={setRepoList} />
-          <CardGrid
-            repoData={repoData}
-            loading={loading}
-            onClose={handleDelete}
-          />
+          <AddRepoForm mutate={mutate} />
+          <CardGrid list={list} repoData={data} loading={isLoading} />
         </>
       </main>
     </div>

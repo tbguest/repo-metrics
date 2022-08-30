@@ -6,15 +6,16 @@ import { BarPlot } from "../../components/BarPlot";
 import { CardLink } from "../../components/CardLink";
 import { Repo } from "../../models";
 import styles from "./CardGrid.module.css";
+import { mutate } from "swr";
 
 type Props = {
   // repoData: Repo[];
+  list: string[];
   repoData: any;
-  loading: String;
-  onClose: (index: String) => void;
+  loading: boolean;
 };
 
-const CardGrid = ({ repoData, loading, onClose }: Props) => {
+const CardGrid = ({ list, repoData, loading }: Props) => {
   if (repoData === "loading") {
     // if (loading === "loading") {
     return <h2>Loading...</h2>;
@@ -26,11 +27,34 @@ const CardGrid = ({ repoData, loading, onClose }: Props) => {
     return null;
   }
 
-  const repoCards = repoData.map((repo: Repo, index: any) => {
+  const handleDelete = async (id: string, list: string[]) => {
+    const updatedList = list.filter((item: any) => {
+      return item.node_id != id;
+    });
+
+    const response = await fetch(`/api/repositories?id=${id}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    mutate("/api/repositories");
+  };
+
+  if (
+    !repoData ||
+    repoData.length === 0 ||
+    repoData.error === "Could not resolve to a node with the global id of ''"
+  ) {
+    return;
+  }
+
+  const repoCards = repoData?.data.nodes.map((repo: Repo, index: any) => {
     return (
       <div className={styles.repocard} key={repo.id}>
         <div className={styles.close}>
-          <button onClick={() => onClose(repo.id)}>Remove</button>
+          <button onClick={() => handleDelete(repo.id, list)}>Remove</button>
         </div>
         <CardLink>
           <h2>{repo.nameWithOwner}</h2>

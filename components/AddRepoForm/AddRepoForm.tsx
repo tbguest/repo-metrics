@@ -1,10 +1,9 @@
+import React from "react";
 import { useInput } from "../../hooks";
 import styles from "./AddRepoForm.module.css";
-import React, { useState } from "react";
 
 type Props = {
-  repoList: any;
-  setRepoList: any;
+  mutate: any;
 };
 
 type DocProps = {
@@ -29,16 +28,16 @@ const postDocument = async (document: DocProps) => {
   return data;
 };
 
-const AddRepoForm = ({ repoList, setRepoList }: Props) => {
+const AddRepoForm = ({ mutate }: Props) => {
   const [owner, ownerInput] = useInput({ placeholder: "owner" });
   const [repo, repoInput] = useInput({ placeholder: "repo" });
-  const [status, setStatus] = useState("");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     // TODO: validate the repo
     try {
+      // we need the 'node_id' from the REST API for quickinteroperability btwn REST and graphql
       let res = await fetch(`/api/github-id?owner=${owner}&repo=${repo}`);
       let response = await res.json();
 
@@ -48,20 +47,11 @@ const AddRepoForm = ({ repoList, setRepoList }: Props) => {
         node_id: response.data.data.node_id,
       };
 
-      setRepoList([...repoList, newRepoObject]);
-      setStatus("success");
-      console.log("success");
-
-      // write to the DB
-      try {
-        const postedData = postDocument(newRepoObject);
-        console.log("successfully wrote document to database");
-      } catch {
-        console.log("ERROR: document not written to database");
-      }
+      const data = postDocument(newRepoObject);
+      mutate();
     } catch {
       // render an indication that the attempt failed
-      setStatus("failed");
+      // setStatus("failed");
     }
   };
 
