@@ -54,6 +54,8 @@ const BarPlot = ({ name }: any) => {
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
 
+  if (!Array.isArray(data.data.data)) return <div>Loading...</div>;
+
   const formattedData = {
     labels: data.data.data.map((_: CommitFields, i: number) => 52 - i),
     datasets: [
