@@ -3,6 +3,12 @@ export type DocumentHead = {
   description: string;
 };
 
+export interface RepoDoc {
+  owner: string;
+  repo: string;
+  node_id: string;
+}
+
 export interface AllRepos {
   nodes: Repo[];
 }

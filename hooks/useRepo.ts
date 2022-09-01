@@ -1,9 +1,15 @@
 import useSWR from "swr";
-
+import { RepoDoc } from "../models";
 export const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export const useRepoList = () => {
-  const { data, error, mutate } = useSWR("/api/repositories", fetcher);
+// interface Props {
+//   initialData: RepoDoc[];
+// }
+
+export const useRepoList = (initialData: RepoDoc[]) => {
+  const { data, error, mutate } = useSWR("/api/repositories", fetcher, {
+    fallbackData: initialData,
+  });
   return {
     data: data,
     isLoading: !error && !data,

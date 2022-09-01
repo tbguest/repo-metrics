@@ -6,6 +6,19 @@ import { useRepoList, useRepoData } from "../hooks";
 import { useSession } from "next-auth/react";
 import { NavBar } from "../components/NavBar";
 
+const defaultRepos = [
+  {
+    owner: "ethereum",
+    repo: "go-ethereum",
+    node_id: "MDEwOlJlcG9zaXRvcnkxNTQ1MjkxOQ==",
+  },
+  {
+    owner: "cosmos",
+    repo: "ibc-go",
+    node_id: "MDEwOlJlcG9zaXRvcnkzMzc3NjQ1OTQ=",
+  },
+];
+
 const Home = () => {
   const { data: session } = useSession();
 
@@ -14,7 +27,8 @@ const Home = () => {
     isLoading: loading,
     isError: error,
     mutate,
-  } = useRepoList();
+  } = useRepoList(defaultRepos);
+
   const { data, isLoading, isError } = useRepoData(list, loading);
 
   if (isError) return <div>Failed to load</div>;
