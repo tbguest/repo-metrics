@@ -1,9 +1,11 @@
 import React from "react";
 import { useInput } from "../../hooks";
 import styles from "./AddRepoForm.module.css";
+import { useRepoData } from "../../hooks";
+import useSWR, { useSWRConfig } from "swr";
 
 type Props = {
-  mutate: any;
+  session: any;
 };
 
 type DocProps = {
@@ -28,9 +30,11 @@ const postDocument = async (document: DocProps) => {
   return data;
 };
 
-const AddRepoForm = ({ mutate }: Props) => {
+const AddRepoForm = ({ session, list, data, mutateData }: Props) => {
   const [owner, ownerInput] = useInput({ placeholder: "owner" });
   const [repo, repoInput] = useInput({ placeholder: "repo" });
+
+  const { mutate, cache } = useSWRConfig();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -47,11 +51,27 @@ const AddRepoForm = ({ mutate }: Props) => {
         node_id: response.data.data.node_id,
       };
 
-      const data = postDocument(newRepoObject);
-      mutate();
+      console.log("cache", cache);
+      console.log("newRepoObject", newRepoObject);
+
+      console.log("list []", [...list, newRepoObject]);
+
+      // mutate([...data, newRepoObject], options);
+      mutate("/api/repositories", [...list, newRepoObject], false);
+      // mutate("/api/repositories");
+      // mutate("/api/repositories");
+      mutateData();
+      // mutateData({ revalidate: false });
+      console.log("data []", [...data.data.nodes]);
+      if (session) {
+        const dat = postDocument(newRepoObject);
+      }
+
+      console.log("data added", list);
     } catch {
       // render an indication that the attempt failed
       // setStatus("failed");
+      console.log("repo add failed");
     }
   };
 
@@ -60,7 +80,10 @@ const AddRepoForm = ({ mutate }: Props) => {
       <div className={styles.container}>
         <h3>Add a new repo:</h3>
         <div>
-          <form onSubmit={handleSubmit} className={styles.form}>
+          <form
+            onSubmit={(event) => handleSubmit(event)}
+            className={styles.form}
+          >
             <span className={styles.inputs}>
               <label>{ownerInput}</label>
               {"/"}

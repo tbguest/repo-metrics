@@ -50,6 +50,9 @@ const CardGrid = ({ list, repoData, loading }: Props) => {
     return null;
   }
 
+  console.log("list", list);
+  console.log("data", repoData);
+
   const repoCards = repoData?.data.nodes.map((repo: Repo, index: any) => {
     return (
       <div className={styles.repocard} key={repo.id}>
