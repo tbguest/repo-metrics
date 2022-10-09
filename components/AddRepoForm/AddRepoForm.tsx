@@ -14,9 +14,10 @@ type DocProps = {
   node_id: String;
 };
 
-const postDocument = async (document: DocProps) => {
-  const response = await fetch("/api/repos", {
-    method: "POST",
+// needs to be PATCH
+const updateDocument = async (document: DocProps, session) => {
+  const response = await fetch(`/api/user/repos?id=${session?.userId}`, {
+    method: "PATCH",
     body: JSON.stringify({ document }),
     headers: {
       "Content-Type": "application/json",
@@ -39,14 +40,21 @@ const AddRepoForm = ({ session, data, mutate }) => {
 
     // TODO: validate the repo
     try {
+      // get the repo data to add to the card
       let res = await fetch(`/api/repo-data?owner=${owner}&repo=${repo}`);
       let obj = await res.json();
 
       // and this needs to trigger an api call to fetch the rest of the data
       mutate([...data, obj], false);
 
+      const repoObj = {
+        owner: owner,
+        repo: repo,
+        id: obj.id,
+      };
+
       if (session) {
-        postDocument(obj);
+        updateDocument(repoObj, session);
         mutate();
       }
     } catch {

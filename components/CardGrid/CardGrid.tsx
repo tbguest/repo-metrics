@@ -15,6 +15,24 @@ type Props = {
   mutate: any;
 };
 
+const removeRepoFromDocument = async (id: string, session) => {
+  if (!session) {
+    return;
+  }
+  const response = await fetch(
+    `/api/user/repos?id=${id}&userId=${session?.userId}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json",
+      },
+    }
+  );
+  if (!response.ok) {
+    throw new Error(`Error: ${response.status}`);
+  }
+};
+
 const CardGrid = ({ session, data, loading, error, mutate }: Props) => {
   if (loading) {
     return <h2>Loading...</h2>;
@@ -25,23 +43,16 @@ const CardGrid = ({ session, data, loading, error, mutate }: Props) => {
     return <h2>Failed to load data</h2>;
   }
 
-  const handleDelete = async (id: string, data: object[]) => {
+  const handleDelete = async (id: string, data: object[], session) => {
     const updatedList = data.filter((element) => {
-      return element.id != id;
+      return element.id !== id;
     });
-
-    console.log("updatedList", updatedList);
 
     // optimistic UI
     mutate(updatedList, false);
 
     if (session) {
-      const response = await fetch(`/api/repos?id=${id}`, {
-        method: "DELETE",
-      });
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status}`);
-      }
+      removeRepoFromDocument(id, session);
       mutate();
     }
   };
@@ -50,7 +61,9 @@ const CardGrid = ({ session, data, loading, error, mutate }: Props) => {
     return (
       <div className={styles.repocard} key={repo.id}>
         <div className={styles.close}>
-          <button onClick={() => handleDelete(repo.id, data)}>Remove</button>
+          <button onClick={() => handleDelete(repo.id, data, session)}>
+            Remove
+          </button>
         </div>
         <CardLink>
           <h2>
