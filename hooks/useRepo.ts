@@ -13,6 +13,9 @@ export const fetchWithUser = (url: string, accessToken: string) => {
   }).then((res) => res.json());
 };
 
+export const fetchWithSession = (url: string, session: any) =>
+  fetch(`${url}?signedin=${!!session}`).then((res) => res.json());
+
 // interface Props {
 //   initialData: RepoDoc[];
 //   session: Session | null;
@@ -34,6 +37,20 @@ export const fetchWithUser = (url: string, accessToken: string) => {
 //   // Remaining code
 // }
 
+export const useRepos = (session: Session | null) => {
+  const { data, error, mutate } = useSWR(
+    ["/api/repos", session],
+    fetchWithSession
+  );
+
+  return {
+    data: data,
+    loading: !error && !data,
+    error: error,
+    mutate,
+  };
+};
+
 export const useRepoList = (
   initialData: RepoDoc[],
   session: Session | null
@@ -49,11 +66,7 @@ export const useRepoList = (
         revalidateOnFocus: false,
         revalidateOnMount: false,
       };
-  const { data, error } = useSWR(
-    session && "/api/repositories",
-    fetcher,
-    options
-  );
+  const { data, error } = useSWR(session && "/api/repos", fetcher, options);
   return {
     data: data,
     isLoading: !error && !data,
@@ -64,7 +77,7 @@ export const useRepoList = (
 export const useRepoData = (list: string[], loading: boolean) => {
   const ids = !loading ? list?.map((item: any) => item.node_id) : null;
   const { data: data, error: error } = useSWR(
-    !loading ? `/api/gql-repositories?ids=${ids}` : null,
+    !loading ? `/api/gql-repos?ids=${ids}` : null,
     fetcher
   );
   return {

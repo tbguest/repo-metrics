@@ -43,18 +43,16 @@ export const options = {
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 // TODO: tackle this tricky typing...
-const BarPlot = ({ name }: any) => {
-  const [owner, repo] = name.split("/");
-
+const BarPlot = ({ name, owner }) => {
   const { data, error } = useSWR(
-    `/api/github-commits?owner=${owner}&repo=${repo}`,
+    `/api/github-commits?owner=${owner}&repo=${name}`,
     fetcher
   );
 
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
 
-  if (!Array.isArray(data.data.data)) return <div>Loading...</div>;
+  if (!Array.isArray(data?.data?.data)) return <div>Loading...</div>;
 
   const formattedData = {
     labels: data.data.data.map((_: CommitFields, i: number) => 52 - i),
