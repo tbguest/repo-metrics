@@ -25,4 +25,11 @@ export default NextAuth({
     }),
     // ...add more providers here
   ],
+  callbacks: {
+    // add the user ID to the session object for DB queries
+    async session({ session, user }) {
+      session.userId = user.id;
+      return session;
+    },
+  },
 });
