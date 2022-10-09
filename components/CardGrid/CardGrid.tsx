@@ -1,36 +1,20 @@
 import classNames from "classnames";
+import { Session } from "next-auth";
 import { AiFillStar } from "react-icons/ai";
 import { BiGitPullRequest } from "react-icons/bi";
 import { VscIssues, VscRepoForked } from "react-icons/vsc";
 import { BarPlot } from "../../components/BarPlot";
 import { CardLink } from "../../components/CardLink";
 // import { Repo } from "../../models";
+import { removeRepoFromDocument } from "../../db/updateDocument";
 import styles from "./CardGrid.module.css";
 
 type Props = {
-  session: any;
+  session: Session;
   data: any;
   loading: boolean;
   error: boolean;
   mutate: any;
-};
-
-const removeRepoFromDocument = async (id: string, session) => {
-  if (!session) {
-    return;
-  }
-  const response = await fetch(
-    `/api/user/repos?id=${id}&userId=${session?.userId}`,
-    {
-      method: "DELETE",
-      headers: {
-        "Content-type": "application/json",
-      },
-    }
-  );
-  if (!response.ok) {
-    throw new Error(`Error: ${response.status}`);
-  }
 };
 
 const CardGrid = ({ session, data, loading, error, mutate }: Props) => {
@@ -43,7 +27,7 @@ const CardGrid = ({ session, data, loading, error, mutate }: Props) => {
     return <h2>Failed to load data</h2>;
   }
 
-  const handleDelete = async (id: string, data: object[], session) => {
+  const handleDelete = async (id: string, data: object[], session: Session) => {
     const updatedList = data.filter((element) => {
       return element.id !== id;
     });

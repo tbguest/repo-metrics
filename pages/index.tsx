@@ -6,8 +6,6 @@ import { useUserRepos } from "../hooks";
 import { useSession } from "next-auth/react";
 import { NavBar } from "../components/NavBar";
 
-export const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
 const Home = () => {
   const { data: session } = useSession();
   const { data, loading, error, mutate } = useUserRepos(session);

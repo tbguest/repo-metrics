@@ -17,7 +17,9 @@ export default async function handler(
       try {
         const signedIn = req.query.id !== "false";
         const collection = signedIn ? "users" : "default-repos";
-        const query = signedIn ? { _id: new ObjectId(req.query.id) } : {};
+        const query = signedIn
+          ? { _id: new ObjectId(String(req.query.id)) }
+          : {};
 
         const githubClient = getGithubClient();
         const response = await db.collection(collection).findOne(query);
@@ -54,7 +56,7 @@ export default async function handler(
         const userId = req.query.id;
         const data = req.body.document;
 
-        const query = { _id: new ObjectId(userId) };
+        const query = { _id: new ObjectId(String(userId)) };
         const updateDocument = {
           $push: { savedRepos: data },
         };
@@ -74,7 +76,7 @@ export default async function handler(
       const id = req.query.id;
       const userId = req.query.userId;
       try {
-        const query = { _id: new ObjectId(userId) };
+        const query = { _id: new ObjectId(String(userId)) };
         const updateDocument = {
           $pull: { savedRepos: { id: id } },
         };

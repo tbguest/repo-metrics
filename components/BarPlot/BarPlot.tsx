@@ -44,6 +44,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 // TODO: tackle this tricky typing...
 const BarPlot = ({ name, owner }) => {
+  // TODO: think about this use of SWR
   const { data, error } = useSWR(
     `/api/github-commits?owner=${owner}&repo=${name}`,
     fetcher

@@ -1,37 +1,16 @@
 import React from "react";
 import { useInput } from "../../hooks";
+import { addRepoToDocument } from "../../db/updateDocument";
 import styles from "./AddRepoForm.module.css";
+import { Session } from "next-auth";
 
 type Props = {
-  session: any;
+  session: Session;
   data: number;
-  mutateData: number;
+  // mutate: number;
 };
 
-type DocProps = {
-  owner: String | JSX.Element;
-  repo: String | JSX.Element;
-  node_id: String;
-};
-
-// needs to be PATCH
-const updateDocument = async (document: DocProps, session) => {
-  const response = await fetch(`/api/user/repos?id=${session?.userId}`, {
-    method: "PATCH",
-    body: JSON.stringify({ document }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error(`Error: ${response.status}`);
-  }
-  const { data } = await response.json();
-  return data;
-};
-
-const AddRepoForm = ({ session, data, mutate }) => {
+const AddRepoForm = ({ session, data, mutate }: Props) => {
   const [owner, ownerInput] = useInput({ placeholder: "owner" });
   const [repo, repoInput] = useInput({ placeholder: "repo" });
 
@@ -54,7 +33,7 @@ const AddRepoForm = ({ session, data, mutate }) => {
       };
 
       if (session) {
-        updateDocument(repoObj, session);
+        addRepoToDocument(repoObj, session);
         mutate();
       }
     } catch {
