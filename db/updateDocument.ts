@@ -1,13 +1,8 @@
 import { Session } from "next-auth";
-
-type DocProps = {
-  owner: string | JSX.Element;
-  repo: string | JSX.Element;
-  node_id: string;
-};
+import { RepoDoc } from "../models";
 
 export const addRepoToDocument = async (
-  document: DocProps,
+  document: RepoDoc,
   session: Session
 ) => {
   const response = await fetch(`/api/user/repos?id=${session?.userId}`, {

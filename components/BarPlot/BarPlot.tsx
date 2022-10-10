@@ -12,6 +12,11 @@ import useSWR from "swr";
 import { CommitFields } from "../../models";
 import styles from "./BarPlot.module.css";
 
+type Props = {
+  name: string;
+  owner: string;
+};
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -42,8 +47,7 @@ export const options = {
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-// TODO: tackle this tricky typing...
-const BarPlot = ({ name, owner }) => {
+const BarPlot = ({ name, owner }: Props) => {
   // TODO: think about this use of SWR
   const { data, error } = useSWR(
     `/api/github-commits?owner=${owner}&repo=${name}`,

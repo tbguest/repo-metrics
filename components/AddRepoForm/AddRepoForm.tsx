@@ -2,15 +2,17 @@ import React from "react";
 import { useInput } from "../../hooks";
 import { addRepoToDocument } from "../../db/updateDocument";
 import styles from "./AddRepoForm.module.css";
-import { Session } from "next-auth";
+import { useSession } from "next-auth/react";
+import { KeyedMutator } from "swr";
+import { RepoData } from "../../models";
 
 type Props = {
-  session: Session;
-  data: number;
-  // mutate: number;
+  data: RepoData[];
+  mutate: KeyedMutator<RepoData[]>;
 };
 
-const AddRepoForm = ({ session, data, mutate }: Props) => {
+const AddRepoForm = ({ data, mutate }: Props) => {
+  const { data: session } = useSession();
   const [owner, ownerInput] = useInput({ placeholder: "owner" });
   const [repo, repoInput] = useInput({ placeholder: "repo" });
 

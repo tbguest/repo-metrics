@@ -36,12 +36,11 @@ const Home = () => {
             Disclaimer: The merit of a project cannot be judged solely on the
             metrics shown here. Use your judgement.
           </p>
-          <AddRepoForm session={session} data={data} mutate={mutate} />
+          <AddRepoForm data={data} mutate={mutate} />
           {!data || loading ? (
             <div>Loading...</div>
           ) : (
             <CardGrid
-              session={session}
               data={data}
               loading={loading}
               error={error}

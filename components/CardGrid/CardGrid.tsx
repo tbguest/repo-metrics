@@ -1,23 +1,24 @@
-import classNames from "classnames";
 import { Session } from "next-auth";
 import { AiFillStar } from "react-icons/ai";
 import { BiGitPullRequest } from "react-icons/bi";
 import { VscIssues, VscRepoForked } from "react-icons/vsc";
 import { BarPlot } from "../../components/BarPlot";
 import { CardLink } from "../../components/CardLink";
-// import { Repo } from "../../models";
+import { RepoData } from "../../models";
 import { removeRepoFromDocument } from "../../db/updateDocument";
 import styles from "./CardGrid.module.css";
+import { useSession } from "next-auth/react";
+import { KeyedMutator } from "swr";
 
 type Props = {
-  session: Session;
-  data: any;
+  data: RepoData[];
   loading: boolean;
   error: boolean;
-  mutate: any;
+  mutate: KeyedMutator<RepoData[]>;
 };
 
-const CardGrid = ({ session, data, loading, error, mutate }: Props) => {
+const CardGrid = ({ data, loading, error, mutate }: Props) => {
+  const { data: session } = useSession();
   if (loading) {
     return <h2>Loading...</h2>;
   }
@@ -27,7 +28,11 @@ const CardGrid = ({ session, data, loading, error, mutate }: Props) => {
     return <h2>Failed to load data</h2>;
   }
 
-  const handleDelete = async (id: string, data: object[], session: Session) => {
+  const handleDelete = async (
+    id: string,
+    data: RepoData[],
+    session: Session | null
+  ) => {
     const updatedList = data.filter((element) => {
       return element.id !== id;
     });
