@@ -10,10 +10,6 @@ const Home = () => {
   const { data: session } = useSession();
   const { data, loading, error, mutate } = useUserRepos(session);
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
   if (error) {
     return <p>Error</p>;
   }

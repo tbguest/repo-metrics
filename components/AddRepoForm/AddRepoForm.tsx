@@ -38,6 +38,9 @@ const AddRepoForm = ({ data, mutate }: Props) => {
         addRepoToDocument(repoObj, session);
         mutate();
       }
+
+      setOwner("");
+      setRepo("");
     } catch {
       // render an indication that the attempt failed
       console.log("Failed to add repo.");
