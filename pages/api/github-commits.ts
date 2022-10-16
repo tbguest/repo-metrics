@@ -14,7 +14,12 @@ export default async function handler(
     const data = await githubClient.request(
       `GET /repos/${owner}/${repo}/stats/commit_activity`
     );
-    res.json({ data });
+
+    if (data.status === 202) {
+      res.status(202).json({ data });
+    } else {
+      res.status(200).json({ data });
+    }
   } catch (e) {
     res.status(400).json({ error: (e as Error).message });
   }

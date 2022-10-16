@@ -12,16 +12,23 @@ a {
   text-decoration: none;
 }
 
+button {
+  font-family: inherit;
+}
+
 * {
   box-sizing: border-box;
 }
 
 :root {
-  --text-color: #1d1d1d;
+  --dark-primary: #1d1d1d;
+  --light-primary: #ffffff;
+  --text-color: var(--light-primary);
   --link-color: #0070f3;
-  --background-color: white;
+  /* --background-color: white; #111722 */
+  --background-color: #111722;
   --background-color-hover: rgba(233, 233, 233, 0.5);
-  --border-radius: 8px;
   --plot-height: 210px;
   --plot-color: rgb(57, 211, 83);
+  --border-radius: 6px;
 }

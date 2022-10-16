@@ -2,10 +2,9 @@
   display: flex;
   flex: 1;
   padding: 2rem 0;
-  /* border-top: 2px solid var(--text-color); */
   justify-content: center;
   align-items: center;
-  margin: 0 3rem;
+  background-color: var(--background-color);
 }
 
 .footer a {

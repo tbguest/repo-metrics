@@ -3,31 +3,21 @@ export type DocumentHead = {
   description: string;
 };
 
-export interface AllRepos {
-  nodes: Repo[];
-}
-export interface Repo {
+export interface RepoDoc {
+  owner: string | JSX.Element;
+  repo: string | JSX.Element;
   id: string;
+}
+
+export interface RepoData {
+  repo: string;
+  owner: string;
   description: string;
-  forkCount: number;
-  name: string;
-  nameWithOwner: string;
-  stargazerCount: number;
-  issues: {
-    totalCount: number;
-  };
-  mentionableUsers: {
-    totalCount: number;
-  };
-  assignableUsers: {
-    totalCount: number;
-  };
-  openIssues: {
-    totalCount: number;
-  };
-  pullRequests: {
-    totalCount: number;
-  };
+  starGazers: string;
+  watchers: number;
+  issues: number;
+  forks: number;
+  id: string;
 }
 
 export interface CommitFields {

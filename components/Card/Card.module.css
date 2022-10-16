@@ -1,15 +1,13 @@
 .card {
-  border: 2px solid black;
+  /* border: 2px solid var(--light-primary); */
+  border: 2px solid #5e5e5f;
   border-radius: var(--border-radius);
   padding: 2rem 2rem 1rem 2rem;
   position: relative;
   height: 100%;
   margin: 0;
-}
-
-.card:hover {
-  background-color: var(--background-color-hover);
-  cursor: pointer;
+  /* background: linear-gradient(#e66465, #9198e5); */
+  /* background: linear-gradient(#000000, #9198e5); */
 }
 
 .prompt {
@@ -23,23 +21,4 @@
   margin-bottom: 0;
   position: relative;
   bottom: -12px;
-}
-
-.prompt_hidden {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: rgb(0, 0, 0, 0);
-  font-weight: 600;
-  margin-bottom: 0;
-  position: relative;
-  bottom: -12px;
-}
-
-.card:hover .prompt {
-  opacity: 1;
-  color: rgb(0, 0, 0, 0.7);
-  transition: color 0.4s ease-out;
 }
