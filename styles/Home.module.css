@@ -1,6 +1,8 @@
 .container {
   padding: 0 12px;
   background-color: var(--background-color);
+  /* background: linear-gradient(#e66465, #9198e5); */
+  /* background: linear-gradient(#000000, #9198e5); */
 }
 
 @media (min-width: 600px) {
@@ -17,6 +19,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: var(--text-color);
 }
 
 .main h1 {

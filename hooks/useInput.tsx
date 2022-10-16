@@ -6,7 +6,7 @@ const useInput = (opts: any) => {
     <input value={value} onChange={(e) => setValue(e.target.value)} {...opts} />
   );
 
-  return [value, input];
+  return [value, setValue, input];
 };
 
 export { useInput };

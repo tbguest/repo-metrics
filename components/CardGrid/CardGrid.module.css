@@ -50,6 +50,21 @@
 .close {
   position: absolute;
   top: 16px;
-  right: 64px;
+  right: 28px;
   z-index: 2;
+}
+
+.button {
+  background-color: var(--background-color);
+  color: var(--light-primary);
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  border: none;
+  width: 32px;
+  height: 32px;
+}
+
+.icon {
+  width: 100%;
+  height: 100%;
 }

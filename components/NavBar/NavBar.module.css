@@ -1,0 +1,64 @@
+.container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 16px 26px;
+}
+
+.icon {
+  height: 36px;
+  width: 36px;
+}
+
+.button {
+  border: 1px solid var(--plot-color);
+  border-radius: 4px;
+  background-color: var(--background-color);
+  color: var(--plot-color);
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.button span {
+  font-size: 16px;
+}
+
+.user_dropdown_button {
+  cursor: pointer;
+  background-color: var(--background-color);
+  color: var(--light-primary);
+  border: none;
+  padding: 0;
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.user_dropdown {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.user_dropdown p {
+  font-size: 16px;
+}
+
+.dropdown_icon {
+  height: 30px;
+  width: 30px;
+  transform: rotate(0deg);
+  transition: transform 0.2s ease-out;
+}
+
+.dropdown_icon_open {
+  height: 30px;
+  width: 30px;
+  transform: rotate(-180deg);
+  transition: transform 0.2s ease-in;
+}

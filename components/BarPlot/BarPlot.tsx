@@ -37,7 +37,7 @@ export const options = {
   scales: {
     x: {
       title: {
-        color: "black",
+        color: "white",
         display: true,
         text: "weeks ago",
       },
@@ -47,15 +47,37 @@ export const options = {
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
+// type ArgProps = {
+//   owner: string;
+//   repo: string;
+// };
+// const fetchWithArgs = (url: string, args: ArgProps) => {
+//   fetch(`${url}?owner=${args.owner}&repo=${args.repo}`).then((res) =>
+//     res.json()
+//   );
+// };
+
 const BarPlot = ({ name, owner }: Props) => {
   // TODO: think about this use of SWR
+  const args = {
+    owner: owner,
+    repo: name,
+  };
   const { data, error } = useSWR(
     `/api/github-commits?owner=${owner}&repo=${name}`,
     fetcher
   );
 
+  // const { data, error } = useSWR(["/api/github-commits", args], fetchWithArgs);
+
   if (error) return <div>Failed to load</div>;
-  if (!data) return <div>Loading...</div>;
+  try {
+    if (data?.data?.status === 202) {
+      return <div>Computing commit data... wait and refresh</div>;
+    }
+  } catch (err) {
+    return <div>Loading...</div>;
+  }
 
   if (!Array.isArray(data?.data?.data)) return <div>Loading...</div>;
 

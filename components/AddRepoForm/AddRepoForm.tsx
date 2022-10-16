@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useInput } from "../../hooks";
 import { addRepoToDocument } from "../../db/updateDocument";
 import styles from "./AddRepoForm.module.css";
@@ -13,8 +13,8 @@ type Props = {
 
 const AddRepoForm = ({ data, mutate }: Props) => {
   const { data: session } = useSession();
-  const [owner, ownerInput] = useInput({ placeholder: "owner" });
-  const [repo, repoInput] = useInput({ placeholder: "repo" });
+  const [owner, setOwner] = useState("");
+  const [repo, setRepo] = useState("");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -54,11 +54,23 @@ const AddRepoForm = ({ data, mutate }: Props) => {
             className={styles.form}
           >
             <span className={styles.inputs}>
-              <label>{ownerInput}</label>
+              <label>
+                <input
+                  value={owner}
+                  onChange={(e) => setOwner(e.target.value)}
+                  placeholder="owner"
+                />
+              </label>
               {"/"}
-              <label>{repoInput}</label>
+              <label>
+                <input
+                  value={repo}
+                  onChange={(e) => setRepo(e.target.value)}
+                  placeholder="repo"
+                />
+              </label>
             </span>
-            <input type="submit" value="Submit" className={styles.button} />
+            <input type="submit" value="Add" className={styles.button} />
           </form>
         </div>
       </div>

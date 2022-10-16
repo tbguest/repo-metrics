@@ -12,6 +12,10 @@ a {
   text-decoration: none;
 }
 
+button {
+  font-family: inherit;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -19,9 +23,10 @@ a {
 :root {
   --dark-primary: #1d1d1d;
   --light-primary: #ffffff;
-  --text-color: var(--dark-primary);
+  --text-color: var(--light-primary);
   --link-color: #0070f3;
-  --background-color: white;
+  /* --background-color: white; #111722 */
+  --background-color: #111722;
   --background-color-hover: rgba(233, 233, 233, 0.5);
   --plot-height: 210px;
   --plot-color: rgb(57, 211, 83);

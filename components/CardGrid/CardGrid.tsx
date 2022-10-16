@@ -9,6 +9,7 @@ import { removeRepoFromDocument } from "../../db/updateDocument";
 import styles from "./CardGrid.module.css";
 import { useSession } from "next-auth/react";
 import { KeyedMutator } from "swr";
+import { IoIosTrash } from "react-icons/io";
 
 type Props = {
   data: RepoData[];
@@ -50,8 +51,11 @@ const CardGrid = ({ data, loading, error, mutate }: Props) => {
     return (
       <div className={styles.repocard} key={repo.id}>
         <div className={styles.close}>
-          <button onClick={() => handleDelete(repo.id, data, session)}>
-            Remove
+          <button
+            className={styles.button}
+            onClick={() => handleDelete(repo.id, data, session)}
+          >
+            <IoIosTrash className={styles.icon} />
           </button>
         </div>
         <CardLink>
