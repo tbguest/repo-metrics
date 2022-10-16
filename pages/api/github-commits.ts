@@ -17,9 +17,9 @@ export default async function handler(
 
     if (data.status === 202) {
       res.status(202).json({ data });
+    } else {
+      res.status(200).json({ data });
     }
-
-    res.status(200).json({ data });
   } catch (e) {
     res.status(400).json({ error: (e as Error).message });
   }
