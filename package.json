@@ -15,7 +15,7 @@
     "chart.js": "^3.8.0",
     "classnames": "^2.3.1",
     "mongodb": "^4.8.1",
-    "next": "12.1.6",
+    "next": "12.2.2",
     "next-auth": "^4.10.3",
     "next-connect": "^0.12.2",
     "nodemailer": "^6.7.8",
