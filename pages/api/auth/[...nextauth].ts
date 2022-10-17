@@ -30,6 +30,7 @@ export default NextAuth({
     }),
     // ...add more providers here
   ],
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     // add the user ID to the session object for DB queries
     async session({ session, user }) {
@@ -37,5 +38,4 @@ export default NextAuth({
       return session;
     },
   },
-  // secret: process.env.NEXTAUTH_SECRET,
 });
