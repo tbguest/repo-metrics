@@ -5,6 +5,7 @@ export const addRepoToDocument = async (
   document: RepoDoc,
   session: Session
 ) => {
+  // @ts-ignore
   const response = await fetch(`/api/user/repos?id=${session?.userId}`, {
     method: "PATCH",
     body: JSON.stringify({ document }),
@@ -25,6 +26,7 @@ export const removeRepoFromDocument = async (id: string, session: Session) => {
     return;
   }
   const response = await fetch(
+    // @ts-ignore
     `/api/user/repos?id=${id}&userId=${session?.userId}`,
     {
       method: "DELETE",

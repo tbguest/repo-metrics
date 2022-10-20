@@ -3,7 +3,8 @@ import type { AppProps } from "next/app";
 import { Layout } from "../components/Layout";
 import { SessionProvider } from "next-auth/react";
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: any) {
+  // function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <SessionProvider session={session}>
       <Layout>

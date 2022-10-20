@@ -1,11 +1,11 @@
 import NextAuth from "next-auth";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import GitHubProvider from "next-auth/providers/github";
-// import GoogleProvider from "next-auth/providers/google";
+import GoogleProvider from "next-auth/providers/google";
 import EmailProvider from "next-auth/providers/email";
 import clientPromise from "../../../lib/mongodb";
 
-export default NextAuth({
+export const authOptions = {
   // Configure one or more authentication providers
   adapter: MongoDBAdapter(clientPromise),
   providers: [
@@ -13,10 +13,10 @@ export default NextAuth({
       clientId: process.env.GITHUB_CLIENT_ID || "",
       clientSecret: process.env.GITHUB_CLIENT_SECRET || "",
     }),
-    // GoogleProvider({
-    //   clientId: process.env.GOOGLE_CLIENT_ID,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    // }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+    }),
     EmailProvider({
       server: {
         host: process.env.EMAIL_SERVER_HOST,
@@ -30,12 +30,15 @@ export default NextAuth({
     }),
     // ...add more providers here
   ],
-  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     // add the user ID to the session object for DB queries
+    // @ts-ignore
     async session({ session, user }) {
       session.userId = user.id;
       return session;
     },
   },
-});
+  secret: process.env.NEXTAUTH_SECRET,
+};
+
+export default NextAuth(authOptions);
