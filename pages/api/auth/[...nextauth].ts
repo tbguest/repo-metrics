@@ -32,14 +32,14 @@ export const authOptions = {
     }),
     // ...add more providers here
   ],
-  // callbacks: {
-  //   // add the user ID to the session object for DB queries
-  //   // @ts-ignore
-  //   async session({ session, user }) {
-  //     session.userId = user.id;
-  //     return session;
-  //   },
-  // },
+  callbacks: {
+    // add the user ID to the session object for DB queries
+    // @ts-ignore
+    async session({ session, user }) {
+      session.userId = user.id;
+      return session;
+    },
+  },
   // secret: process.env.NEXTAUTH_SECRET,
 };
 
