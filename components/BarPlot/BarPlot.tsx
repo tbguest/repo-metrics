@@ -95,7 +95,9 @@ const BarPlot = ({ name, owner }: Props) => {
 
   return (
     <div className={styles.plot}>
-      <Bar options={options} data={formattedData} />
+      <div className={styles.plot_wrapper}>
+        <Bar options={options} data={formattedData} />
+      </div>
     </div>
   );
 };

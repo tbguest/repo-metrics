@@ -1,3 +1,11 @@
+.grid {
+  display: grid;
+  grid-template: auto / 1fr;
+  width: 100%;
+  gap: 40px;
+  padding: 0;
+}
+
 .repocard {
   position: relative;
 }
@@ -31,16 +39,6 @@
 .list p {
   margin: 0.5rem;
   overflow-wrap: break-word;
-}
-
-.grid {
-  display: flex;
-  flex-direction: column;
-  max-width: 700px;
-  gap: 40px;
-  margin: 2rem 0 0 0;
-  padding: 0;
-  width: 100%;
 }
 
 .chart {

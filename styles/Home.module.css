@@ -1,26 +1,23 @@
 .container {
   background-color: var(--background-color);
-  max-width: 100vw;
-  display: flex;
-  justify-content: center;
-  /* background: linear-gradient(#e66465, #9198e5); */
-  /* background: linear-gradient(#000000, #9198e5); */
-}
-
-@media (min-width: 600px) {
-  .container {
-    padding: 0 32px;
-  }
+  min-height: 100vh;
+  padding: 1.5rem 2rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: var(--content-max-width);
 }
 
 .main {
   top: var(--nav-height);
-  padding: 4rem 0;
-  display: flex;
-  gap: var(--grid-gap);
-  justify-content: center;
   color: var(--text-color);
-  width: 100%;
+  position: relative;
+
+  display: grid;
+  grid-template: 1fr / 40% auto;
+  gap: 40px;
+  margin-top: var(--gutter);
+  margin-bottom: var(--gutter);
 }
 
 .main h1 {
@@ -29,21 +26,18 @@
 }
 
 .content_sticky {
-  width: 35%;
   position: -webkit-sticky; /* for Safari */
   position: sticky;
-  top: var(--nav-height);
   align-self: flex-start;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding-top: 16px;
 }
 
 .content {
   min-height: calc(100vh - var(--nav-height));
-  /* width: 65%; */
-  /* max-width: 60%; */
-  /* max-width: 100%; */
+  padding-top: 32px;
 }
 
 .brand {
@@ -58,19 +52,20 @@
 
 @media (max-width: 768px) {
   .main {
-    padding: 0 16px;
+    padding: 0 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     color: var(--text-color);
     max-width: 100vw;
-    top: var(--nav-height);
+    top: 0;
   }
 
   .content_sticky {
     position: relative;
     width: 100%;
-    padding: 0 16px;
+    padding: 0 0;
     top: var(--nav-height);
     align-self: flex-start;
     display: flex;
@@ -81,9 +76,9 @@
 
   .content {
     position: relative;
+    padding-top: 48px;
     width: 100%;
     min-width: 100%;
-    padding: 0 16px;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -94,5 +89,11 @@
     align-items: center;
     max-width: 100%;
     font-size: 2.25rem !important;
+  }
+}
+
+@media (max-width: 550px) {
+  .container {
+    padding: 24px 16px;
   }
 }
