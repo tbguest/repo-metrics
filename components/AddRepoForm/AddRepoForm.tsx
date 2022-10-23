@@ -76,6 +76,9 @@ const AddRepoForm = ({ data, mutate }: Props) => {
             <input type="submit" value="Add" className={styles.button} />
           </form>
         </div>
+        <p className={styles.small_text}>
+          {"Sign in to keep your curated list. It's free!"}
+        </p>
       </div>
     </>
   );

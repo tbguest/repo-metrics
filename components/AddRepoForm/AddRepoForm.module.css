@@ -38,3 +38,8 @@
   width: fit-content;
   height: fit-content;
 }
+
+.small_text {
+  padding-top: 16px;
+  font-size: small;
+}
