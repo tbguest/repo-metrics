@@ -5,8 +5,11 @@ body {
   padding: 0;
   margin: 0;
   line-height: 1.5;
-  /* font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, */
-  /* Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+h1 {
   font-family: "Lexend", sans-serif;
 }
 
@@ -34,4 +37,6 @@ button {
   --plot-height: 210px;
   --plot-color: rgb(57, 211, 83);
   --border-radius: 6px;
+  --nav-height: 5rem;
+  --content-max-width: 1200px;
 }

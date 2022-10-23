@@ -33,6 +33,10 @@ export default async function handler(
           const { data } = await githubClient.request(
             `GET /repos/${user.savedRepos[i].owner}/${user.savedRepos[i].repo}`
           );
+          // const { data: pulls } = await githubClient.request(
+          //   `GET /repos/${user.savedRepos[i].owner}/${user.savedRepos[i].repo}/pulls`
+          // );
+          // console.log("pulls", pulls);
           repoDataArray.push({
             repo: data.name,
             owner: data.owner.login,

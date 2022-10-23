@@ -59,7 +59,7 @@ const CardGrid = ({ data, loading, error, mutate }: Props) => {
           </button>
         </div>
         <CardLink>
-          <h2>
+          <h2 className={styles.card_title}>
             {repo.owner}/{repo.repo}
           </h2>
           <h3>{repo.description}</h3>
@@ -75,7 +75,7 @@ const CardGrid = ({ data, loading, error, mutate }: Props) => {
                 <VscRepoForked /> forks: <strong>{repo.forks}</strong>
               </p>
               <p>
-                <BiGitPullRequest /> watchers: <strong>{repo.watchers}</strong>
+                <BiGitPullRequest /> pull requests (open): <strong>--</strong>
               </p>
             </div>
             <div className={styles.plot}>
