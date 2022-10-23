@@ -50,7 +50,7 @@ const AddRepoForm = ({ data, mutate }: Props) => {
   return (
     <>
       <div className={styles.container}>
-        <h3>Add a new repo:</h3>
+        <h3>Add a repo:</h3>
         <div>
           <form
             onSubmit={(event) => handleSubmit(event)}
@@ -64,7 +64,7 @@ const AddRepoForm = ({ data, mutate }: Props) => {
                   placeholder="owner"
                 />
               </label>
-              {"/"}
+              <p>{" / "}</p>
               <label>
                 <input
                   value={repo}

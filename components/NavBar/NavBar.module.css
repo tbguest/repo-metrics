@@ -1,5 +1,5 @@
 .container {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   left: 0;
@@ -7,6 +7,9 @@
   justify-content: flex-end;
   align-items: center;
   padding: 16px 26px;
+  height: var(--nav-height);
+  z-index: 4;
+  background-color: var(--background-color);
 }
 
 .icon {
@@ -25,6 +28,8 @@
 
 .button span {
   font-size: 16px;
+  margin: 0;
+  padding: 0;
 }
 
 .user_dropdown_button {
@@ -43,6 +48,7 @@
   display: flex;
   gap: 6px;
   align-items: center;
+  padding-right: 1rem;
 }
 
 .user_dropdown p {
@@ -61,4 +67,25 @@
   width: 30px;
   transform: rotate(-180deg);
   transition: transform 0.2s ease-in;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  color: var(--light-primary);
+}
+
+.brand_icon {
+  color: tomato;
+}
+
+.user {
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+  .hidden {
+    display: none;
+  }
 }

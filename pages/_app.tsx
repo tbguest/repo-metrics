@@ -7,9 +7,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: any) {
   // function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <SessionProvider session={session}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      {/* <Layout> */}
+      <Component {...pageProps} />
+      {/* </Layout> */}
     </SessionProvider>
   );
 }

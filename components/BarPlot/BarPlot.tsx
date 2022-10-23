@@ -34,6 +34,7 @@ export const options = {
       display: true,
     },
   },
+  maintainAspectRatio: false,
   scales: {
     x: {
       title: {
