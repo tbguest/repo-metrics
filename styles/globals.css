@@ -39,4 +39,5 @@ button {
   --border-radius: 6px;
   --nav-height: 5rem;
   --content-max-width: 1200px;
+  --grid-gap: 50px;
 }

@@ -14,14 +14,13 @@
 }
 
 .main {
+  top: var(--nav-height);
   padding: 4rem 0;
   display: flex;
-  gap: 50px;
+  gap: var(--grid-gap);
   justify-content: center;
   color: var(--text-color);
-  /* max-width: var(--content-max-width); */
-  max-width: 100vw;
-  top: var(--nav-height);
+  width: 100%;
 }
 
 .main h1 {
@@ -29,13 +28,7 @@
   margin-bottom: 1rem;
 }
 
-.description {
-  margin: 4rem 0;
-  line-height: 1.5;
-  font-size: 1.5rem;
-}
-
-.intro {
+.content_sticky {
   width: 35%;
   position: -webkit-sticky; /* for Safari */
   position: sticky;
@@ -48,7 +41,9 @@
 
 .content {
   min-height: calc(100vh - var(--nav-height));
-  max-width: 60%;
+  /* width: 65%; */
+  /* max-width: 60%; */
+  /* max-width: 100%; */
 }
 
 .brand {
@@ -72,7 +67,7 @@
     top: var(--nav-height);
   }
 
-  .intro {
+  .content_sticky {
     position: relative;
     width: 100%;
     padding: 0 16px;
