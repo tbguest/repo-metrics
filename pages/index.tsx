@@ -7,7 +7,6 @@ import { useSession } from "next-auth/react";
 import { NavBar } from "../components/NavBar";
 import { Footer } from "../components/Footer";
 import { RiBarChartFill } from "react-icons/ri";
-import { CardLink } from "../components/CardLink";
 import { PlaceholderCard } from "../components/PlaceholderCard";
 
 const Home = () => {
