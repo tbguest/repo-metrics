@@ -36,7 +36,6 @@ button {
   --light-primary: #ffffff;
   --text-color: var(--light-primary);
   --link-color: #0070f3;
-  /* --background-color: white; #111722 */
   --background-color: #111722;
   --background-color-shimmer: #171f2e;
   --background-color-hover: rgba(233, 233, 233, 0.5);
@@ -48,4 +47,5 @@ button {
   --grid-gap: 50px;
   --plot-height: 192px;
   --grey: #5e5e5f;
+  --brand-icon-color: tomato;
 }
