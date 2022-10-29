@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import { NavBar } from "../components/NavBar";
 import { Footer } from "../components/Footer";
 import { RiBarChartFill } from "react-icons/ri";
-import { PlaceholderCard } from "../components/PlaceholderCard";
+import { LoadingCard } from "../components/LoadingCard";
 
 const Home = () => {
   const { data: session } = useSession();
@@ -30,7 +30,7 @@ const Home = () => {
       <NavBar session={session} />
       <main className={styles.main}>
         <section className={styles.content_sticky}>
-          <h1 className={styles.brand}>
+          <h1 className="font-lexend text-lg font-bold">
             <RiBarChartFill className={styles.icon} />
             RepoMetrics
           </h1>
@@ -40,9 +40,9 @@ const Home = () => {
         <section className={styles.content}>
           {!data || loading ? (
             <>
-              <PlaceholderCard />
-              <PlaceholderCard />
-              <PlaceholderCard />
+              <LoadingCard />
+              <LoadingCard />
+              <LoadingCard />
             </>
           ) : (
             <CardGrid

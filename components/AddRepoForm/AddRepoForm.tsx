@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { useInput } from "../../hooks";
 import { addRepoToDocument } from "../../db/updateDocument";
-import styles from "./AddRepoForm.module.css";
 import { useSession } from "next-auth/react";
 import { KeyedMutator } from "swr";
 import { RepoData } from "../../models";
@@ -49,14 +47,14 @@ const AddRepoForm = ({ data, mutate }: Props) => {
 
   return (
     <>
-      <div className={styles.container}>
+      <div className="flex flex-col">
         <h3>Add a repo:</h3>
         <div>
           <form
             onSubmit={(event) => handleSubmit(event)}
-            className={styles.form}
+            className="flex flex-col"
           >
-            <span className={styles.inputs}>
+            <span className="flex items-center break-words flex-wrap">
               <label>
                 <input
                   value={owner}
@@ -73,10 +71,14 @@ const AddRepoForm = ({ data, mutate }: Props) => {
                 />
               </label>
             </span>
-            <input type="submit" value="Add" className={styles.button} />
+            <input
+              type="submit"
+              value="Add"
+              className="bg-black py-4 px-8 w-fit h-fit mt-4 rounded cursor-pointer"
+            />
           </form>
         </div>
-        <p className={styles.small_text}>
+        <p className="text-xs pt-4">
           {"Sign in to keep your curated list. It's free!"}
         </p>
       </div>
