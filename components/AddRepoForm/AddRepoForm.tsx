@@ -48,7 +48,7 @@ const AddRepoForm = ({ data, mutate }: Props) => {
   return (
     <>
       <div className="flex flex-col">
-        <h3>Add a repo:</h3>
+        <h3 className="font-bold text-lg mb-8">Add a repo:</h3>
         <div>
           <form
             onSubmit={(event) => handleSubmit(event)}
@@ -57,6 +57,7 @@ const AddRepoForm = ({ data, mutate }: Props) => {
             <span className="flex items-center break-words flex-wrap">
               <label>
                 <input
+                  className="rounded m-1 px-[2px] text-black "
                   value={owner}
                   onChange={(e) => setOwner(e.target.value)}
                   placeholder="owner"
@@ -65,6 +66,7 @@ const AddRepoForm = ({ data, mutate }: Props) => {
               <p>{" / "}</p>
               <label>
                 <input
+                  className="rounded m-1 px-[2px] text-black"
                   value={repo}
                   onChange={(e) => setRepo(e.target.value)}
                   placeholder="repo"
@@ -74,11 +76,11 @@ const AddRepoForm = ({ data, mutate }: Props) => {
             <input
               type="submit"
               value="Add"
-              className="bg-black py-4 px-8 w-fit h-fit mt-4 rounded cursor-pointer"
+              className="bg-black py-3 px-6 w-fit h-fit mt-6 rounded cursor-pointer"
             />
           </form>
         </div>
-        <p className="text-xs pt-4">
+        <p className="text-xs mt-8">
           {"Sign in to keep your curated list. It's free!"}
         </p>
       </div>
