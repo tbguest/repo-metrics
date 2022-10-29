@@ -3,7 +3,7 @@ import { AiFillStar } from "react-icons/ai";
 import { BiGitPullRequest } from "react-icons/bi";
 import { VscIssues, VscRepoForked } from "react-icons/vsc";
 import { BarPlot } from "../../components/BarPlot";
-import { CardLink } from "../../components/CardLink";
+import { Card } from "../../components/Card";
 import { RepoData } from "../../models";
 import { removeRepoFromDocument } from "../../db/updateDocument";
 import styles from "./CardGrid.module.css";
@@ -58,7 +58,7 @@ const CardGrid = ({ data, loading, error, mutate }: Props) => {
             <IoIosTrash className={styles.icon} />
           </button>
         </div>
-        <CardLink>
+        <Card>
           <h2 className={styles.card_title}>
             {repo.owner}/{repo.repo}
           </h2>
@@ -84,7 +84,7 @@ const CardGrid = ({ data, loading, error, mutate }: Props) => {
               </div>
             </div>
           </div>
-        </CardLink>
+        </Card>
       </div>
     );
   });
