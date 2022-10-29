@@ -6,7 +6,6 @@ import { BarPlot } from "../../components/BarPlot";
 import { Card } from "../../components/Card";
 import { RepoData } from "../../models";
 import { removeRepoFromDocument } from "../../db/updateDocument";
-import styles from "./CardGrid.module.css";
 import { useSession } from "next-auth/react";
 import { KeyedMutator } from "swr";
 import { IoIosTrash } from "react-icons/io";
@@ -49,37 +48,38 @@ const CardGrid = ({ data, loading, error, mutate }: Props) => {
 
   const repoCards = data.map((repo) => {
     return (
-      <div className={styles.repocard} key={repo.id}>
-        <div className={styles.close}>
+      <div className="relative" key={repo.id}>
+        <div className="absolute top-4 right-4">
           <button
-            className={styles.button}
+            className="flex items-center justify-center w-8 h-8"
             onClick={() => handleDelete(repo.id, data, session)}
           >
-            <IoIosTrash className={styles.icon} />
+            <IoIosTrash className="w-2/3 h-2/3" />
           </button>
         </div>
         <Card>
-          <h2 className={styles.card_title}>
+          <h2 className="break-words font-bold text-2xl py-6">
             {repo.owner}/{repo.repo}
           </h2>
-          <h3>{repo.description}</h3>
-          <div className={styles.content}>
-            <div className={styles.list}>
-              <p>
+          <h3 className="font-bold text-lg pb-2">{repo.description}</h3>
+          <div className="flex flex-col">
+            {/* <div className={styles.list}> */}
+            <div className="grid grid-cols-2 grid-rows-2w-full mb-4">
+              <p className="flex items-center gap-1 m-2 break-words">
                 <AiFillStar /> stars: <strong>{repo.starGazers}</strong>
               </p>
-              <p>
+              <p className="flex items-center gap-1 m-2 break-words">
                 <VscIssues /> issues (open): <strong>{repo.issues}</strong>
               </p>
-              <p>
+              <p className="flex items-center gap-1 m-2 break-words">
                 <VscRepoForked /> forks: <strong>{repo.forks}</strong>
               </p>
-              <p>
-                <BiGitPullRequest /> pull requests (open): <strong>--</strong>
+              <p className="flex items-center gap-1 m-2 break-words">
+                <BiGitPullRequest /> pull requests (open): --
               </p>
             </div>
-            <div className={styles.plot}>
-              <div className={styles.chart}>
+            <div>
+              <div className="w-full">
                 <BarPlot name={repo.repo} owner={repo.owner} />
               </div>
             </div>
@@ -89,7 +89,9 @@ const CardGrid = ({ data, loading, error, mutate }: Props) => {
     );
   });
 
-  return <div className={styles.grid}>{repoCards}</div>;
+  return (
+    <div className="grid grid-cols-auto grid-rows-1 gap-10">{repoCards}</div>
+  );
 };
 
 export { CardGrid };
