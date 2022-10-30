@@ -1,13 +1,12 @@
 import Head from "next/head";
 import { AddRepoForm } from "../components/AddRepoForm";
 import { CardGrid } from "../components/CardGrid";
-import styles from "../styles/Home.module.css";
 import { useUserRepos } from "../hooks";
 import { useSession } from "next-auth/react";
 import { NavBar } from "../components/NavBar";
 import { Footer } from "../components/Footer";
 import { RiBarChartFill } from "react-icons/ri";
-import { PlaceholderCard } from "../components/PlaceholderCard";
+import { LoadingCard } from "../components/LoadingCard";
 
 const Home = () => {
   const { data: session } = useSession();
@@ -18,7 +17,7 @@ const Home = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="min-h-full py-6 px-4 sm:px-8 ml-auto mr-auto max-w-[var(--content-max-width)]">
       <Head>
         <title>Repo Metrics</title>
         <meta
@@ -28,21 +27,23 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <NavBar session={session} />
-      <main className={styles.main}>
-        <section className={styles.content_sticky}>
-          <h1 className={styles.brand}>
-            <RiBarChartFill className={styles.icon} />
+      <main className="md:top-[var(--nav-height)] md:grid md:grid-rows-1 md:grid-cols-[40%_auto] md:gap-10 flex flex-col align-center max-w-full top-0 [color:var(--text-color)]">
+        <section className="md:sticky md:pt-8 relative w-full top-[var(--nav-height)] flex flex-col justify-between self-start mb-8">
+          <h1 className="flex font-lexend text-4xl font-bold md:text-5xl mt-14 mb-12">
+            <RiBarChartFill className="fill-[var(--brand-icon-color)]" />
             RepoMetrics
           </h1>
-          <h2>Compare GitHub projects by interest and development effort</h2>
+          <h2 className="font-bold text-2xl mb-10">
+            Compare GitHub projects by interest and development effort
+          </h2>
           <AddRepoForm data={data} mutate={mutate} />
         </section>
-        <section className={styles.content}>
+        <section className="relative top-[var(--nav-height)] md:pt-4 min-w-full md:min-w-0 flex flex-col">
           {!data || loading ? (
             <>
-              <PlaceholderCard />
-              <PlaceholderCard />
-              <PlaceholderCard />
+              <LoadingCard />
+              <LoadingCard />
+              <LoadingCard />
             </>
           ) : (
             <CardGrid

@@ -10,7 +10,6 @@ import {
 import { Bar } from "react-chartjs-2";
 import useSWR from "swr";
 import { CommitFields } from "../../models";
-import styles from "./BarPlot.module.css";
 
 type Props = {
   name: string;
@@ -94,8 +93,8 @@ const BarPlot = ({ name, owner }: Props) => {
   };
 
   return (
-    <div className={styles.plot}>
-      <div className={styles.plot_wrapper}>
+    <div className="relative bottom-0 left-0 right-0 flex h-48">
+      <div className="absolute w-full h-full">
         <Bar options={options} data={formattedData} />
       </div>
     </div>

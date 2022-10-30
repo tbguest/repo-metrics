@@ -1,7 +1,5 @@
 import React from "react";
 
-import styles from "./Card.module.css";
-
 type CardProps = {
   children: React.ReactNode;
   style?: React.CSSProperties;
@@ -9,14 +7,12 @@ type CardProps = {
 
 const Card = ({ children, style }: CardProps) => {
   return (
-    <div className={styles.card} style={style}>
-      {/* <button className={styles.close} onClick={() => onClose(repo.id)}> */}
-      {/* <div className={styles.close}>
-        <button onClick={() => onClose(repo.id)}>Remove</button>
-      </div> */}
+    <div
+      className="border-2 border-[color:var(--grey)] rounded pt-8 pr-4 pb-4 pl-4 md:pr-8 md:pl-8"
+      style={style}
+    >
       {children}
     </div>
   );
 };
-
 export { Card };

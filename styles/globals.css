@@ -1,30 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-html,
-body {
-  padding: 0;
-  margin: 0;
-  line-height: 1.5;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  background-color: var(--background-color);
-}
-
-h1 {
-  font-family: "Lexend", sans-serif;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button {
-  font-family: inherit;
-}
-
-* {
-  box-sizing: border-box;
+@layer base {
+  body {
+    @apply bg-[var(--background-color)];
+  }
 }
 
 :root {
@@ -32,8 +13,8 @@ button {
   --light-primary: #ffffff;
   --text-color: var(--light-primary);
   --link-color: #0070f3;
-  /* --background-color: white; #111722 */
   --background-color: #111722;
+  --background-color-shimmer: #171f2e;
   --background-color-hover: rgba(233, 233, 233, 0.5);
   --plot-height: 210px;
   --plot-color: rgb(57, 211, 83);
@@ -42,4 +23,6 @@ button {
   --content-max-width: 1200px;
   --grid-gap: 50px;
   --plot-height: 192px;
+  --grey: #5e5e5f;
+  --brand-icon-color: tomato;
 }

@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { Session } from "next-auth";
 import { signIn, signOut } from "next-auth/react";
 import { FaUserCircle } from "react-icons/fa";
-import classes from "./NavBar.module.css";
 import { RiArrowDropDownFill } from "react-icons/ri";
-import { RiBarChartFill } from "react-icons/ri";
 
 type NavBarProps = {
   session: Session | null;
@@ -15,37 +13,39 @@ export const NavBar = ({ session }: NavBarProps) => {
   const hero = session ? (
     <>
       <button
-        className={classes.user_dropdown_button}
+        className="flex gap-4 items-center [color:var(--light-primary)]"
         onClick={() => setMenuOpen(!menuOpen)}
       >
-        <FaUserCircle className={classes.icon} />
-        <div className={classes.user_dropdown}>
-          <p className={classes.hidden}>{session?.user?.email}</p>
+        <FaUserCircle className="w-9 h-9" />
+        <div className="flex items-center pr-4">
+          <p className="hidden md:block">{session?.user?.email}</p>
           {/* {menuOpen ? (
-            <RiArrowDropDownFill className={classes.dropdown_icon_open} />
+            <RiArrowDropDownFill className="h-7 w-7 rotate-180 transition-transform ease-in duration-200" />
           ) : (
-            <RiArrowDropDownFill className={classes.dropdown_icon} />
+            <RiArrowDropDownFill className="h-7 w-7 transition-transform ease-out duration-200" />
           )} */}
         </div>
       </button>
-      <button className={classes.button} onClick={() => signOut()}>
+      <button
+        className="border rounded border-[color:var(--plot-color)] [color:var(--plot-color)] py-1 px-2"
+        onClick={() => signOut()}
+      >
         <span>Sign out</span>
       </button>
     </>
   ) : (
     <>
-      <button className={classes.button} onClick={() => signIn()}>
+      <button
+        className="border rounded border-[color:var(--plot-color)] [color:var(--plot-color)] py-1 px-2"
+        onClick={() => signIn()}
+      >
         <span>Sign in</span>
       </button>
     </>
   );
   return (
-    <div className={classes.container}>
-      {/* <h1 className={classes.brand}>
-          <RiBarChartFill className={classes.brand_icon} />
-          RepoMetrics
-        </h1> */}
-      <div className={classes.user}>{hero}</div>
+    <div className="fixed top-0 left-0 right-0 flex justify-end py-5 px-7 bg-[color:var(--background-color)] z-10">
+      <div className="flex">{hero}</div>
     </div>
   );
 };
