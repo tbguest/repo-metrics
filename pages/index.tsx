@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { AddRepoForm } from "../components/AddRepoForm";
 import { CardGrid } from "../components/CardGrid";
-import { useUserRepos } from "../hooks";
+import { useUserRepos } from "../swr/useUserRepos";
 import { useSession } from "next-auth/react";
 import { NavBar } from "../components/NavBar";
 import { Footer } from "../components/Footer";

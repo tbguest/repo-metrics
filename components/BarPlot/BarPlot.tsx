@@ -8,8 +8,8 @@ import {
   Tooltip,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import useSWR from "swr";
 import { CommitFields } from "../../models";
+import { useCommits } from "../../swr/useCommits";
 
 type Props = {
   name: string;
@@ -45,30 +45,8 @@ export const options = {
   },
 };
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
-// type ArgProps = {
-//   owner: string;
-//   repo: string;
-// };
-// const fetchWithArgs = (url: string, args: ArgProps) => {
-//   fetch(`${url}?owner=${args.owner}&repo=${args.repo}`).then((res) =>
-//     res.json()
-//   );
-// };
-
 const BarPlot = ({ name, owner }: Props) => {
-  // TODO: think about this use of SWR
-  const args = {
-    owner: owner,
-    repo: name,
-  };
-  const { data, error } = useSWR(
-    `/api/github-commits?owner=${owner}&repo=${name}`,
-    fetcher
-  );
-
-  // const { data, error } = useSWR(["/api/github-commits", args], fetchWithArgs);
+  const { data, error } = useCommits(owner, name);
 
   if (error) return <div>Failed to load</div>;
   try {
