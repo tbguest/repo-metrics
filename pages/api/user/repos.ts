@@ -1,4 +1,4 @@
-import { ObjectId } from "mongodb";
+import { Document, ObjectId } from "mongodb";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getGithubClient } from "../../../github-client";
 import client from "../../../lib/db";
@@ -107,7 +107,7 @@ export default async function handler(
       const userId = req.query.userId;
       try {
         const query = { _id: new ObjectId(String(userId)) };
-        const updateDocument = {
+        const updateDocument: Document = {
           $pull: { savedRepos: { id: id } },
         };
         const response = await db
