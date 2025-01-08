@@ -33,7 +33,7 @@ const AddRepoForm = ({ data, mutate }: Props) => {
       };
 
       if (session) {
-        addRepoToDocument(repoObj, session);
+        addRepoToDocument(repoObj, session.user.id);
         mutate();
       }
 

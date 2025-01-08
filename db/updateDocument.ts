@@ -1,18 +1,19 @@
-import { Session } from "next-auth";
 import { RepoDoc } from "../models";
 
 export const addRepoToDocument = async (
   document: RepoDoc,
-  session: Session
+  userId: string | null | undefined
 ) => {
-  // @ts-ignore
-  const response = await fetch(`/api/user/repos?id=${session?.userId}`, {
-    method: "PATCH",
-    body: JSON.stringify({ document }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await fetch(
+    `/api/user/repos${userId ? `?id=${userId}` : ""}`,
+    {
+      method: "PATCH",
+      body: JSON.stringify({ document }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
   if (!response.ok) {
     throw new Error(`Error: ${response.status}`);
@@ -21,13 +22,15 @@ export const addRepoToDocument = async (
   return data;
 };
 
-export const removeRepoFromDocument = async (id: string, session: Session) => {
-  if (!session) {
+export const removeRepoFromDocument = async (
+  id: string,
+  userId: string | null | undefined
+) => {
+  if (!userId) {
     return;
   }
   const response = await fetch(
-    // @ts-ignore
-    `/api/user/repos?id=${id}&userId=${session?.userId}`,
+    `/api/user/repos?id=${id}${userId ? `&userId=${userId}` : ""}`,
     {
       method: "DELETE",
       headers: {

@@ -41,7 +41,7 @@ const CardGrid = ({ data, loading, error, mutate }: Props) => {
     mutate(updatedList, false);
 
     if (session) {
-      removeRepoFromDocument(id, session);
+      removeRepoFromDocument(id, session.user.id);
       mutate();
     }
   };
