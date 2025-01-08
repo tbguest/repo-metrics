@@ -1,16 +1,16 @@
 import Head from "next/head";
 import { AddRepoForm } from "../components/AddRepoForm";
 import { CardGrid } from "../components/CardGrid";
-import { useUserRepos } from "../swr/useUserRepos";
 import { useSession } from "next-auth/react";
 import { NavBar } from "../components/NavBar";
 import { Footer } from "../components/Footer";
 import { RiBarChartFill } from "react-icons/ri";
 import { LoadingCard } from "../components/LoadingCard";
+import { useGetRepos } from "../swr/useGetRepos";
 
 const Home = () => {
   const { data: session } = useSession();
-  const { data, loading, error, mutate } = useUserRepos(session);
+  const { data, loading, error, mutate } = useGetRepos(session?.user.id);
 
   if (error) {
     return <p>Error</p>;

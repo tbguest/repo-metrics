@@ -1,7 +1,35 @@
-import clientPromise from "../../../lib/mongodb";
+import { ObjectId } from "mongodb";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getGithubClient } from "../../../github-client";
-import { ObjectId } from "mongodb";
+import client from "../../../lib/db";
+
+const defaultRepos = [
+  {
+    owner: "facebook",
+    repo: "react",
+    id: "10270250",
+  },
+  {
+    owner: "sveltejs",
+    repo: "svelte",
+    id: "74293321",
+  },
+  {
+    owner: "solidjs",
+    repo: "solid",
+    id: "130884470",
+  },
+  {
+    owner: "withastro",
+    repo: "astro",
+    node_id: "348060227",
+  },
+  {
+    owner: "angular",
+    repo: "angular",
+    id: "24195339",
+  },
+];
 
 export default async function handler(
   req: NextApiRequest,
@@ -9,34 +37,32 @@ export default async function handler(
 ) {
   const { method } = req;
 
-  const dbClient = await clientPromise;
+  const dbClient = client;
   const db = dbClient.db(process.env.MONGODB_DB);
 
   switch (method) {
     case "GET":
       try {
-        const signedIn = req.query.id !== "false";
-        const collection = signedIn ? "users" : "default-repos";
-        const query = signedIn
-          ? { _id: new ObjectId(String(req.query.id)) }
-          : {};
-
+        const userId = req.query.id;
         const githubClient = getGithubClient();
-        const response = await db.collection(collection).findOne(query);
 
-        const user = JSON.parse(JSON.stringify(response));
+        // If there's no user, use the default repos
+        let savedRepos = defaultRepos;
+        // Otherwise, get the user's saved repos
+        if (userId) {
+          const collection = userId ? "users" : "default-repos";
+          const query = userId ? { _id: new ObjectId(String(userId)) } : {};
+          const response = await db.collection(collection).findOne(query);
+          const user = JSON.parse(JSON.stringify(response));
+          savedRepos = user.savedRepos;
+        }
 
+        // With the saved repo names, fetch summary data for each
         let repoDataArray = [];
-
-        // with the saved repo names, fetch summary data for each
-        for (let i = 0; i < user.savedRepos?.length; i++) {
+        for (const repo of savedRepos) {
           const { data } = await githubClient.request(
-            `GET /repos/${user.savedRepos[i].owner}/${user.savedRepos[i].repo}`
+            `GET /repos/${repo.owner}/${repo.repo}`
           );
-          // const { data: pulls } = await githubClient.request(
-          //   `GET /repos/${user.savedRepos[i].owner}/${user.savedRepos[i].repo}/pulls`
-          // );
-          // console.log("pulls", pulls);
           repoDataArray.push({
             repo: data.name,
             owner: data.owner.login,
